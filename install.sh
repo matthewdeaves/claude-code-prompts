@@ -99,20 +99,33 @@ install_statusline() {
         exit 1
     fi
 
-    # Copy script to ~/.claude/
     local dest="$HOME/.claude/statusline.sh"
+    mkdir -p "$HOME/.claude"
+
+    # Back up existing statusline script if present
+    if [ -f "$dest" ]; then
+        local backup="$dest.bak.$(date +%Y%m%d_%H%M%S)"
+        cp "$dest" "$backup"
+        echo "Backed up existing statusline to $backup"
+    fi
+
+    # Copy new script
     cp "$src" "$dest"
     chmod +x "$dest"
 
     # Update settings.json
     if [ -f "$CLAUDE_CONFIG" ]; then
+        # Check if there's an existing statusLine config
+        existing=$(jq -r '.statusLine // empty' "$CLAUDE_CONFIG" 2>/dev/null)
+        if [ -n "$existing" ]; then
+            echo "Note: Updating existing statusLine configuration"
+        fi
         # Backup existing config
         cp "$CLAUDE_CONFIG" "$CLAUDE_CONFIG.bak"
         # Update statusLine setting using jq
         jq '.statusLine = {"type": "command", "command": "bash ~/.claude/statusline.sh"}' "$CLAUDE_CONFIG" > "$CLAUDE_CONFIG.tmp" && mv "$CLAUDE_CONFIG.tmp" "$CLAUDE_CONFIG"
     else
         # Create new config
-        mkdir -p "$(dirname "$CLAUDE_CONFIG")"
         echo '{"statusLine": {"type": "command", "command": "bash ~/.claude/statusline.sh"}}' | jq . > "$CLAUDE_CONFIG"
     fi
 
