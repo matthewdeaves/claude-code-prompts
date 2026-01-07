@@ -6,6 +6,7 @@ A library of useful skills, statuslines, and configs for Claude Code.
 
 | Skill | Description |
 |-------|-------------|
+| `commit` | Smart git commits with security checks, .gitignore validation, and intelligent commit messages. |
 | `evaluate-plan` | Evaluates project plans for Claude Code compatibility. Reviews task granularity, dependencies, and testability. |
 
 ## Available Statuslines
@@ -75,7 +76,7 @@ Skills are tools that Claude chooses to use based on your request - they're not 
 Review my project plan for Claude Code compatibility
 ```
 ```
-Evaluate this implementation plan
+Commit my changes
 ```
 
 Claude will recognise the skill applies and ask to use it.
@@ -85,7 +86,11 @@ Claude will recognise the skill applies and ask to use it.
 Run /evaluate-plan on my plan
 ```
 ```
-Use the evaluate-plan skill to review this plan
+/commit
 ```
 
-Claude will search your project for plans and assess them against best practices for iterative development with Claude Code. You can also paste a plan directly or point to a specific file.
+### Examples
+
+**evaluate-plan**: Claude will search your project for plans and assess them against best practices for iterative development with Claude Code. You can also paste a plan directly or point to a specific file.
+
+**commit**: Analyzes your working tree, checks for missing .gitignore entries, scans for secrets/API keys, suggests staging changes, and generates a conventional commit message based on the actual changes.
