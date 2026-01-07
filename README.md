@@ -91,6 +91,27 @@ Run /evaluate-plan on my plan
 
 ### Examples
 
-**evaluate-plan**: Claude will search your project for plans and assess them against best practices for iterative development with Claude Code. You can also paste a plan directly or point to a specific file. See [cookie](https://github.com/matthewdeaves/cookie) for a real-world example of a plan refined using this skill — the [WORKFLOW.md](https://github.com/matthewdeaves/cookie/blob/master/WORKFLOW.md) and [modular phase structure](https://github.com/matthewdeaves/cookie/tree/master/plans) show the result.
+**evaluate-plan**: Evaluates project plans for Claude Code compatibility — assessing task granularity, dependencies, testability, context management, and QA workflow structure.
+
+#### Recommended Workflow
+
+This skill works best as a quality gate within an iterative planning process:
+
+1. **Draft in planning mode** - Use Claude Code's planning mode to develop your implementation plan. Request multiple rounds of refinement:
+   - Identify gaps in specification
+   - Review architecture for potential issues
+   - Expand solution design details
+   - Improve task breakdown and session boundaries
+   - Continue until the plan covers all requirements
+
+2. **Evaluate** - Run `/evaluate-plan` to assess the plan against Claude Code best practices
+
+3. **Address recommendations** - Implement suggested changes (supporting infrastructure, task clarity, QA workflow)
+
+4. **Re-evaluate** - Run the skill again and repeat until the assessment indicates the plan is ready to implement
+
+This iterative approach produces plans that work reliably with Claude Code's session-based workflow.
+
+See [cookie](https://github.com/matthewdeaves/cookie) for an example — the [WORKFLOW.md](https://github.com/matthewdeaves/cookie/blob/master/WORKFLOW.md), [QA-TESTING.md](https://github.com/matthewdeaves/cookie/blob/master/QA-TESTING.md), and [modular phase structure](https://github.com/matthewdeaves/cookie/tree/master/plans) demonstrate the result of this workflow.
 
 **commit**: Analyzes your working tree, checks for missing .gitignore entries, scans for secrets/API keys, suggests staging changes, and generates a conventional commit message based on the actual changes.
