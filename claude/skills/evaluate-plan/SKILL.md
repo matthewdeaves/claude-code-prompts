@@ -1,7 +1,7 @@
 ---
 name: evaluate-plan
 description: Evaluate a project plan for Claude Code compatibility. Use when reviewing implementation plans, project breakdowns, or task lists to assess how well they will work with Claude Code's iterative workflow.
-allowed-tools: Read, Glob, Grep
+allowed-tools: Read Glob Grep
 ---
 
 # Evaluate Plan for Claude Code Compatibility

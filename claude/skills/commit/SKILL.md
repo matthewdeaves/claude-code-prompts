@@ -1,7 +1,7 @@
 ---
 name: commit
 description: Smart git commits with security checks, .gitignore validation, and intelligent commit messages. Analyzes your changes, catches potential secrets, and generates conventional commit messages.
-allowed-tools: Bash, Read, Grep, Glob, AskUserQuestion
+allowed-tools: Bash Read Grep Glob AskUserQuestion
 ---
 
 # Smart Commit
