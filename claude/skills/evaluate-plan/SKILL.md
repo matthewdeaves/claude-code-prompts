@@ -133,6 +133,8 @@ Concrete suggestions to improve the plan. Keep recommendations proportionate - d
 
 Only include this section when the plan involves manual testing phases.
 
+**Important:** Tailor all recommendations to the specific project's platforms, terminology, and architecture. Use the project's naming conventions, reference its specific target devices/browsers, and align with patterns found in its existing planning documents.
+
 **Triggers to look for:**
 - UI/UX implementation work
 - Multi-device or multi-browser targets
@@ -195,4 +197,4 @@ This gives users the same guided workflow they have for implementation - clear p
 Without researching existing patterns first, fixes may technically work but violate codebase architecture (e.g., adding a bottom nav when the app uses a top bar, or creating a new component when one already exists). The research phase ensures fixes fit the established patterns.
 
 **Why this matters:**
-Some projects need one QA session at the end. Multi-platform projects (like legacy iOS + modern web) may need several throughout development. The key is having structure to prevent QA from becoming chaotic late-stage whack-a-mole.
+Some projects need one QA session at the end. Projects with multiple frontends, device targets, or browser compatibility requirements may need several QA rounds throughout development. The key is having structure to prevent QA from becoming chaotic late-stage whack-a-mole.
