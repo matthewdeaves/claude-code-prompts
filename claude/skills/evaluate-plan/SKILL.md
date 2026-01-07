@@ -42,6 +42,12 @@ Effective plans follow an iterative "Land and Expand" pattern:
 - Are related changes grouped together logically?
 - Is information organised so relevant context can be provided per-task?
 
+### 6. Supporting Infrastructure
+- Is there a CLAUDE.md or similar quick-reference file with critical rules?
+- Is there workflow documentation explaining how to use the plans with Claude Code?
+- Are plans split across multiple files to enable focused sessions?
+- Is there guidance on session management (when to /clear, how to scope work)?
+
 ## Common Problems to Flag
 
 - **Monolithic tasks**: Single tasks that span multiple unrelated concerns
@@ -52,14 +58,36 @@ Effective plans follow an iterative "Land and Expand" pattern:
 
 ## Instructions
 
-1. Read the plan provided by the user (file path or pasted content)
-2. Evaluate against each of the five criteria above
-3. Identify specific problems using the "Common Problems" patterns
-4. Provide your assessment in the format below
+1. **Search for the full planning ecosystem**, not just a single file:
+   - Look for workflow/process guides (WORKFLOW.md, CONTRIBUTING.md)
+   - Look for quick reference files (CLAUDE.md, claude.md)
+   - Check if plans are deliberately split across multiple files (this is a positive pattern)
+   - Check for a plans/ or docs/ directory
+
+2. **Evaluate the system as a whole**:
+   - Multiple plan files = deliberate splitting (credit this as a strength)
+   - Workflow guides that explain session management = strong context management
+   - Quick reference files = good guardrails
+
+3. Evaluate against each of the five criteria above
+
+4. **Calibrate to project complexity** - a complex app with multiple frontends WILL have larger phases; focus on whether phases are actionable, not just small
+
+5. **Distinguish deliberate choices from oversights** - "TBD" items may be realistic acknowledgment of unknowns, not planning failures
+
+6. Identify specific problems using the "Common Problems" patterns
+
+7. Provide your assessment in the format below
 
 ## Output Format
 
 Provide your assessment as:
+
+### Planning Ecosystem Found
+List what you discovered:
+- Plan files found (and whether deliberately split)
+- Supporting docs (CLAUDE.md, WORKFLOW.md, etc.)
+- Quick reference materials
 
 ### Overall Rating
 How well-suited is this plan for Claude Code implementation?
@@ -68,14 +96,16 @@ How well-suited is this plan for Claude Code implementation?
 - **Major Restructuring Required**: Fundamental changes needed
 
 ### Strengths
-What aspects of the plan work well?
+What aspects of the plan work well? Credit deliberate architectural choices.
 
 ### Issues Found
-Specific problems identified, referencing the criteria above.
+Specific problems identified, referencing the criteria above. Distinguish between:
+- Actual oversights that need fixing
+- Deliberate trade-offs that are acceptable
 
 ### Recommended Changes
-Concrete suggestions to improve the plan:
-- How to restructure large tasks
-- What to prioritise differently
-- Missing elements to add
-- A suggested revised task order if applicable
+Concrete suggestions to improve the plan. Keep recommendations proportionate - don't suggest splitting already-split plans further without good reason. Focus on:
+- Missing supporting infrastructure
+- Unclear task definitions
+- Dependency issues
+- Gaps in verification/testing
