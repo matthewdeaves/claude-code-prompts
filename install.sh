@@ -11,6 +11,7 @@ show_help() {
     echo
     echo "Usage:"
     echo "  ./install.sh                     List all available items"
+    echo "  ./install.sh --all               Install everything (all skills + default statusline)"
     echo "  ./install.sh <skill-name>        Install a specific skill"
     echo "  ./install.sh --all-skills        Install all skills"
     echo "  ./install.sh --statusline <name> Install a statusline"
@@ -74,8 +75,17 @@ install_all_skills() {
             echo "Installed skill '$skill_name'"
         fi
     done
-    echo
     echo "All skills installed to $SKILLS_DEST"
+}
+
+install_all() {
+    echo "Installing all skills..."
+    install_all_skills
+    echo
+    echo "Installing default statusline (git-context)..."
+    install_statusline "git-context"
+    echo
+    echo "All done! Restart Claude Code to see your new statusline."
 }
 
 install_statusline() {
@@ -120,6 +130,9 @@ if [ $# -eq 0 ]; then
 fi
 
 case "$1" in
+    --all)
+        install_all
+        ;;
     --all-skills|-a)
         install_all_skills
         ;;

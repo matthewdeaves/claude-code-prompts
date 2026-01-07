@@ -28,13 +28,16 @@ cd claude-code-prompts
 # List everything available
 ./install.sh
 
-# Install a skill
+# Install everything (all skills + default statusline)
+./install.sh --all
+
+# Install a specific skill
 ./install.sh evaluate-plan
 
-# Install all skills
+# Install all skills only
 ./install.sh --all-skills
 
-# Install a statusline
+# Install a specific statusline
 ./install.sh --statusline git-context
 ```
 
