@@ -91,6 +91,6 @@ Run /evaluate-plan on my plan
 
 ### Examples
 
-**evaluate-plan**: Claude will search your project for plans and assess them against best practices for iterative development with Claude Code. You can also paste a plan directly or point to a specific file.
+**evaluate-plan**: Claude will search your project for plans and assess them against best practices for iterative development with Claude Code. You can also paste a plan directly or point to a specific file. See [cookie](https://github.com/matthewdeaves/cookie) for a real-world example of a plan refined using this skill — the [WORKFLOW.md](https://github.com/matthewdeaves/cookie/blob/master/WORKFLOW.md) and [modular phase structure](https://github.com/matthewdeaves/cookie/tree/master/plans) show the result.
 
 **commit**: Analyzes your working tree, checks for missing .gitignore entries, scans for secrets/API keys, suggests staging changes, and generates a conventional commit message based on the actual changes.
