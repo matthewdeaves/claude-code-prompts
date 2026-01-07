@@ -1,6 +1,6 @@
-# Claude Code Prompts & Skills
+# Claude Code Prompts & Configs
 
-A library of useful prompts and skills for Claude Code to help with software engineering projects.
+A library of useful skills, statuslines, and configs for Claude Code.
 
 ## Available Skills
 
@@ -8,28 +8,57 @@ A library of useful prompts and skills for Claude Code to help with software eng
 |-------|-------------|
 | `evaluate-plan` | Evaluates project plans for Claude Code compatibility. Reviews task granularity, dependencies, and testability. |
 
+## Available Statuslines
+
+| Statusline | Description |
+|------------|-------------|
+| `git-context` | Shows model, directory, git repo:branch, and context window usage percentage |
+
+Example output: `[Opus] 📁 myproject | user/repo:main | context:42%`
+
 ## Installation
 
 ### Quick Install
 
 ```bash
 # Clone the repo
-git clone <repo-url>
-cd prompts
+git clone https://github.com/matthewdeaves/claude-code-prompts
+cd claude-code-prompts
 
-# Install a specific skill
+# List everything available
+./install.sh
+
+# Install a skill
 ./install.sh evaluate-plan
 
-# Or install all skills
-./install.sh --all
+# Install all skills
+./install.sh --all-skills
+
+# Install a statusline
+./install.sh --statusline git-context
 ```
 
 ### Manual Install
 
-Copy the skill folder to your personal Claude skills directory:
-
+**Skills** - copy to your personal skills directory:
 ```bash
 cp -r claude/skills/evaluate-plan ~/.claude/skills/
+```
+
+**Statuslines** - copy script and update settings:
+```bash
+cp statuslines/git-context.sh ~/.claude/statusline.sh
+chmod +x ~/.claude/statusline.sh
+```
+
+Then add to `~/.claude/settings.json`:
+```json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline.sh"
+  }
+}
 ```
 
 ## Usage
