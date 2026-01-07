@@ -41,6 +41,8 @@ cd claude-code-prompts
 ./install.sh --statusline git-context
 ```
 
+**Note:** The installer backs up any existing statusline before overwriting, so you won't lose your current setup.
+
 ### Manual Install
 
 **Skills** - copy to your personal skills directory:
