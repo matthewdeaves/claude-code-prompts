@@ -152,6 +152,7 @@ A QA tracking document (e.g., QA-TESTING.md) with:
    - **Research findings** (existing patterns, design intent, architectural constraints)
    - Tasks (informed by research)
    - Verification criteria
+   - Deployment verification steps (how to confirm fix is live)
 4. **Testing Rounds Log** - Record what was tested, when, on which devices
 5. **Pending Tests** - Track areas not yet covered
 
@@ -165,7 +166,11 @@ A QA tracking document (e.g., QA-TESTING.md) with:
 3. **Plan & Fix** - Define tasks based on research, implement in focused session
    - Use `/clear` between sessions for fresh context
    - Reference session ID when implementing ("implement QA-A")
-4. **Verify** - Test fix on target devices before marking complete
+4. **Verify** - Confirm deployment, then test:
+   - Ensure build/deploy completed successfully
+   - Clear caches (hard refresh, clear service worker, invalidate CDN if applicable)
+   - Confirm the fix is actually live (check version, console log, or changed element)
+   - Test on target devices
 
 **Session prompts for QA workflow:**
 
@@ -185,10 +190,13 @@ The QA tracking document should include ready-to-use prompts, just like implemen
 > the patterns to follow.
 
 ### After Each Session
-1. Test fix on target device
-2. Update issue status (Fixed/Verified/Won't Fix)
-3. Run `/clear`
-4. Start next session or log new issues discovered
+1. Confirm fix is deployed (build succeeded, no errors)
+2. Clear caches (hard refresh, service worker, CDN)
+3. Verify new code is running (check a changed element or version)
+4. Test fix on target device
+5. Update issue status (Fixed/Verified/Won't Fix)
+6. Run `/clear`
+7. Start next session or log new issues discovered
 ```
 
 This gives users the same guided workflow they have for implementation - clear prompts to start each session, explicit /clear points, and a defined iteration loop.
