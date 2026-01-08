@@ -71,6 +71,7 @@ Only evaluate this criterion when the plan involves manual testing phases (UI/UX
 - **Missing verification loop**: No clear path from fix → deploy → verify → mark complete
 - **QA as afterthought**: Testing planned for "the end" without structure for handling discoveries
 - **Fix without research**: QA issues go straight to implementation without investigating existing patterns first (leads to architecturally inconsistent fixes)
+- **Monolithic QA document**: Single QA file with dozens of issues spanning multiple platforms, testing rounds, or concerns (context overload for focused fix sessions)
 
 ## Instructions
 
@@ -80,9 +81,11 @@ Only evaluate this criterion when the plan involves manual testing phases (UI/UX
    - Check if plans are deliberately split across multiple files (this is a positive pattern)
    - Check for a plans/ or docs/ directory
    - Look for QA tracking documents (QA-TESTING.md, QA.md, or similar)
+   - Check if QA documents are split when appropriate (QA-001.md, QA-MOBILE.md, etc.)
 
 2. **Evaluate the system as a whole**:
    - Multiple plan files = deliberate splitting (credit this as a strength)
+   - Multiple QA files (when warranted by size/complexity) = same strength
    - Workflow guides that explain session management = strong context management
    - Quick reference files = good guardrails
    - QA tracking documents = mature approach to manual testing phases
@@ -106,7 +109,7 @@ List what you discovered:
 - Plan files found (and whether deliberately split)
 - Supporting docs (CLAUDE.md, WORKFLOW.md, etc.)
 - Quick reference materials
-- QA tracking documents (if applicable)
+- QA tracking documents (if applicable, and whether split when appropriate)
 
 ### Overall Rating
 Is this plan implementable with Claude Code?
@@ -128,6 +131,7 @@ Concrete suggestions to improve the plan. Keep recommendations proportionate - d
 - Unclear task definitions
 - Dependency issues
 - Gaps in verification/testing
+- QA document splitting (when single file has 30+ issues or spans multiple platforms/concerns)
 
 ### QA Workflow Assessment (when applicable)
 
@@ -155,6 +159,37 @@ A QA tracking document (e.g., QA-TESTING.md) with:
    - Deployment verification steps (how to confirm fix is live)
 4. **Testing Rounds Log** - Record what was tested, when, on which devices
 5. **Pending Tests** - Track areas not yet covered
+
+**When to split QA documents:**
+
+Just like implementation plans, QA documents should be split when they become too large for effective context management. Apply the same "deliberate splitting" pattern:
+
+**Small projects (1-15 issues):**
+- Single `QA-TESTING.md` file is appropriate
+- Keep all sessions in one document for easy reference
+
+**Medium projects (15-40 issues, or multiple testing rounds):**
+- `QA-TESTING.md` - Master index with issue log table, workflow instructions, and status tracking
+- `QA-001.md`, `QA-002.md`, `QA-003.md` - Split by testing round or batch
+- Each numbered file contains detailed session plans for that batch
+
+**Large projects (40+ issues, or multiple platforms/concerns):**
+- `QA-TESTING.md` - Master index with overall status and workflow
+- `QA-MOBILE.md`, `QA-DESKTOP.md`, `QA-BROWSER-COMPAT.md` - Split by platform/concern
+- Or: `QA-ROUND-1.md`, `QA-ROUND-2.md`, `QA-ROUND-3.md` - Split by testing phase
+- Choose split strategy based on natural boundaries in the testing work
+
+**Why split?**
+- **Context efficiency**: Loading 50 issues for a single mobile fix wastes context
+- **Focused sessions**: "Read QA-MOBILE.md and fix QA-M-003" vs "Read all QA and find mobile issue 23"
+- **Parallel work**: Different team members can work on different QA files simultaneously
+- **Consistency**: Same "multiple files = strength" principle that applies to implementation plans
+
+**When evaluating existing QA docs:**
+- Single file with 10 issues = fine
+- Single file with 30+ issues across multiple platforms = recommend splitting
+- Single file with 20 issues but all related (e.g., all Safari bugs) = probably fine
+- Multiple testing rounds planned = proactively recommend split structure
 
 **Recommended workflow (4 distinct phases):**
 
