@@ -7,7 +7,7 @@ A library of useful skills, statuslines, and configs for Claude Code.
 | Skill | Description |
 |-------|-------------|
 | `commit` | Smart git commits with security checks, .gitignore validation, and intelligent commit messages. |
-| `implementable` | Check if your implementation plan will succeed with Claude Code. Evaluates whether phases fit context windows and follow iterative patterns. |
+| `implementable` | Check if your implementation plan will succeed with Claude Code. Evaluates task granularity, context management, phase splitting, and creates QA tracking infrastructure. |
 
 ## Available Statuslines
 
@@ -112,6 +112,31 @@ This skill works best as a quality gate within an iterative planning process:
 
 This iterative approach produces plans that work reliably with Claude Code's session-based workflow.
 
-See [cookie](https://github.com/matthewdeaves/cookie) for an example — the [WORKFLOW.md](https://github.com/matthewdeaves/cookie/blob/master/WORKFLOW.md), [QA-TESTING.md](https://github.com/matthewdeaves/cookie/blob/master/QA-TESTING.md), and [modular phase structure](https://github.com/matthewdeaves/cookie/tree/master/plans) demonstrate the result of this workflow.
+#### Key Capabilities
+
+The skill evaluates 7 core criteria and provides specific recommendations:
+
+**Planning Structure:**
+- **Phase Splitting** - Detects monolithic plans (5+ phases in one file) and recommends splitting into separate `PHASE-N-NAME.md` files for better navigation and context management
+- **Task Granularity** - Ensures tasks are focused, actionable, and completable in focused sessions
+- **Context Management** - Validates that information is organized for per-task context loading
+
+**QA Infrastructure:**
+- **QA Round Detection** - When evaluating plans with completed work, detects features needing manual testing and suggests creating feature-scoped QA rounds
+- **QA Round Creation** - Generates `QA-ROUND-N-FEATURE.md` documents on request with test scenarios extracted from implementation acceptance criteria
+- **QA Document Splitting** - Recommends splitting monolithic QA files (30+ issues) by testing round or platform
+
+**Usage Examples:**
+```
+# Evaluate a plan
+/implementable
+
+# Create a QA round for completed work
+create QA Round 1 for Recipe Remix
+```
+
+The skill will either evaluate the plan (providing recommendations) or create QA infrastructure (generating documents), depending on your request.
+
+See [cookie](https://github.com/matthewdeaves/cookie) for an example — the [WORKFLOW.md](https://github.com/matthewdeaves/cookie/blob/master/WORKFLOW.md) and [modular phase structure](https://github.com/matthewdeaves/cookie/tree/master/plans) demonstrate the recommended planning patterns. Note that the cookie project's [QA-TESTING.md](https://github.com/matthewdeaves/cookie/blob/master/QA-TESTING.md) uses a monolithic structure (developed before QA Round capabilities were added); new projects can use feature-scoped QA rounds instead.
 
 **commit**: Analyzes your working tree, checks for missing .gitignore entries, scans for secrets/API keys, suggests staging changes, and generates a conventional commit message based on the actual changes. When QA tracking documents are present, automatically formats messages to link code changes to specific issues (e.g., QA-013, #42) with clear explanations of what each file change accomplishes.
