@@ -75,6 +75,8 @@ Only evaluate this criterion when the plan involves manual testing phases (UI/UX
 
 ## Instructions
 
+**IMPORTANT**: When searching for files, remember that Linux filesystems are case-sensitive. When instructions list multiple variants (e.g., "CLAUDE.md, claude.md"), you MUST search for each variant separately. Don't assume finding one means the other doesn't exist.
+
 1. **Search for the full planning ecosystem**, not just a single file:
    - Look for workflow/process guides (WORKFLOW.md, CONTRIBUTING.md)
    - Look for quick reference files (CLAUDE.md, claude.md)
