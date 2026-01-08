@@ -7,7 +7,7 @@ A library of useful skills, statuslines, and configs for Claude Code.
 | Skill | Description |
 |-------|-------------|
 | `commit` | Smart git commits with security checks, .gitignore validation, and intelligent commit messages. |
-| `evaluate-plan` | Evaluates project plans for Claude Code compatibility. Reviews task granularity, dependencies, and testability. |
+| `implementable` | Check if your implementation plan will succeed with Claude Code. Evaluates whether phases fit context windows and follow iterative patterns. |
 
 ## Available Statuslines
 
@@ -33,7 +33,7 @@ cd claude-code-prompts
 ./install.sh --all
 
 # Install a specific skill
-./install.sh evaluate-plan
+./install.sh implementable
 
 # Install all skills only
 ./install.sh --all-skills
@@ -48,7 +48,7 @@ cd claude-code-prompts
 
 **Skills** - copy to your personal skills directory:
 ```bash
-cp -r claude/skills/evaluate-plan ~/.claude/skills/
+cp -r skills/implementable ~/.claude/skills/
 ```
 
 **Statuslines** - copy script and update settings:
@@ -73,7 +73,7 @@ Skills are tools that Claude chooses to use based on your request - they're not 
 
 **Ask naturally:**
 ```
-Review my project plan for Claude Code compatibility
+Is my plan implementable?
 ```
 ```
 Commit my changes
@@ -83,7 +83,7 @@ Claude will recognise the skill applies and ask to use it.
 
 **Or ask Claude to run it:**
 ```
-Run /evaluate-plan on my plan
+/implementable
 ```
 ```
 /commit
@@ -91,7 +91,7 @@ Run /evaluate-plan on my plan
 
 ### Examples
 
-**evaluate-plan**: Evaluates project plans for Claude Code compatibility — assessing task granularity, dependencies, testability, context management, and QA workflow structure.
+**implementable**: Checks if your implementation plan will succeed with Claude Code — evaluates whether phases fit context windows, assesses task granularity, dependencies, and ensures work follows iterative patterns.
 
 #### Recommended Workflow
 
@@ -104,11 +104,11 @@ This skill works best as a quality gate within an iterative planning process:
    - Improve task breakdown and session boundaries
    - Continue until the plan covers all requirements
 
-2. **Evaluate** - Run `/evaluate-plan` to assess the plan against Claude Code best practices
+2. **Check** - Run `/implementable` to assess the plan against Claude Code best practices
 
 3. **Address recommendations** - Implement suggested changes (supporting infrastructure, task clarity, QA workflow)
 
-4. **Re-evaluate** - Run the skill again and repeat until the assessment indicates the plan is ready to implement
+4. **Re-check** - Run the skill again and repeat until the assessment indicates the plan is ready to implement
 
 This iterative approach produces plans that work reliably with Claude Code's session-based workflow.
 

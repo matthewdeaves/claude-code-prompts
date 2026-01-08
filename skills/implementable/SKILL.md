@@ -1,12 +1,12 @@
 ---
-name: evaluate-plan
-description: Evaluate a project plan for Claude Code compatibility. Use when reviewing implementation plans, project breakdowns, or task lists to assess how well they will work with Claude Code's iterative workflow.
+name: implementable
+description: Check if your implementation plan will succeed with Claude Code. Evaluates whether phases fit context windows and follow iterative patterns for session-based development.
 allowed-tools: Read Glob Grep
 ---
 
-# Evaluate Plan for Claude Code Compatibility
+# Is Your Plan Implementable?
 
-Review the provided project plan and assess how well it will work when implemented using Claude Code.
+Check if your implementation plan will succeed when executed with Claude Code's session-based workflow.
 
 ## Core Principle: Land and Expand
 
@@ -14,7 +14,7 @@ Effective plans follow an iterative "Land and Expand" pattern:
 - **Land**: Define and implement a minimal working core with clean architecture and clear patterns
 - **Expand**: Add features layer by layer, each building on the established foundation
 
-## Evaluation Criteria
+## What Makes a Plan Implementable?
 
 ### 1. Task Granularity
 - Is there a clearly defined minimal core to implement first?
@@ -109,10 +109,10 @@ List what you discovered:
 - QA tracking documents (if applicable)
 
 ### Overall Rating
-How well-suited is this plan for Claude Code implementation?
-- **Good**: Ready to implement with minor tweaks
-- **Needs Adjustment**: Workable but should address specific issues first
-- **Major Restructuring Required**: Fundamental changes needed
+Is this plan implementable with Claude Code?
+- **Implementable**: Ready to implement with minor tweaks
+- **Needs Work**: Implementable after addressing specific issues
+- **Not Yet Implementable**: Fundamental changes needed first
 
 ### Strengths
 What aspects of the plan work well? Credit deliberate architectural choices.

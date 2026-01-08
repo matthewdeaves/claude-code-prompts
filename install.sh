@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SKILLS_SRC="$SCRIPT_DIR/claude/skills"
+SKILLS_SRC="$SCRIPT_DIR/skills"
 SKILLS_DEST="$HOME/.claude/skills"
 STATUSLINES_SRC="$SCRIPT_DIR/statuslines"
 CLAUDE_CONFIG="$HOME/.claude/settings.json"
