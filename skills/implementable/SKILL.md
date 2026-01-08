@@ -46,6 +46,7 @@ Effective plans follow an iterative "Land and Expand" pattern:
 - Is there a CLAUDE.md or similar quick-reference file with critical rules?
 - Is there workflow documentation explaining how to use the plans with Claude Code?
 - Are plans split across multiple files to enable focused sessions?
+  - For multi-phase projects (5+ phases): Are phases in separate PHASE-N-NAME.md files?
 - Is there guidance on session management (when to /clear, how to scope work)?
 - For projects with manual testing: Is there a QA tracking document?
 
@@ -67,6 +68,7 @@ Only evaluate this criterion when the plan involves manual testing phases (UI/UX
 - **Deferred foundations**: Core architecture decisions pushed to later phases
 - **Missing verification steps**: No tests or checks between implementation stages
 - **Overloaded scope**: Too many requirements packed into individual tasks
+- **Monolithic phase document**: Single file containing 5+ distinct phases (should be split for better navigation and context management)
 - **Unstructured QA phase**: Manual testing mentioned but no system for tracking and fixing issues iteratively
 - **Missing verification loop**: No clear path from fix → deploy → verify → mark complete
 - **QA as afterthought**: Testing planned for "the end" without structure for handling discoveries
@@ -87,6 +89,7 @@ Only evaluate this criterion when the plan involves manual testing phases (UI/UX
 
 2. **Evaluate the system as a whole**:
    - Multiple plan files = deliberate splitting (credit this as a strength)
+   - Separate PHASE-N-NAME.md files for multi-phase projects = excellent navigation and context management
    - Multiple QA files (when warranted by size/complexity) = same strength
    - Workflow guides that explain session management = strong context management
    - Quick reference files = good guardrails
@@ -133,7 +136,54 @@ Concrete suggestions to improve the plan. Keep recommendations proportionate - d
 - Unclear task definitions
 - Dependency issues
 - Gaps in verification/testing
+- Phase document splitting (when single file contains 5+ distinct phases)
 - QA document splitting (when single file has 30+ issues or spans multiple platforms/concerns)
+
+**When to split implementation plans into separate PHASE files:**
+
+Just like QA documents, implementation plans should be split when they become too large for effective context management and navigation.
+
+**Single file with detailed phases (1-4 phases):**
+- Single `BUILD-PHASES.md` or `IMPLEMENTATION.md` is appropriate
+- Detail the first phase fully, preview later phases
+- Keep all phases in one document for easy reference
+
+**Multiple PHASE files (5+ phases):**
+- Split into separate files: `PHASE-1-FOUNDATION.md`, `PHASE-2-SCRAPING.md`, `PHASE-3-FRONTEND.md`, etc.
+- Each file contains that phase's tasks, session scope, acceptance criteria
+- Maintain consistent structure across all PHASE files
+- Name files descriptively (use phase purpose in filename, not just numbers)
+
+**Benefits of splitting phases:**
+- **Easier navigation** - Jump directly to relevant phase without scrolling
+- **Clearer boundaries** - Each phase is self-contained and focused
+- **Better git history** - Changes to one phase don't clutter another's history
+- **Parallel work** - Different sessions can reference different phase files
+- **Reduced cognitive load** - Clear file structure communicates project organization
+- **Consistent with "land and expand"** - Detail current phase, outline future phases
+
+**How to split:**
+1. Create `plans/` directory if it doesn't exist
+2. Extract each phase into `plans/PHASE-N-NAME.md` (e.g., `PHASE-1-FOUNDATION.md`)
+3. Include in each PHASE file:
+   - Session Scope table (which sessions implement which tasks)
+   - Task checklist with clear acceptance criteria
+   - Tech stack or models specific to this phase
+   - Cross-references to supporting docs (CLAUDE.md, WORKFLOW.md)
+4. Keep master PLANNING.md with:
+   - Project overview and architecture
+   - Overall tech stack
+   - Cross-cutting concerns
+   - Reference to all PHASE files
+
+**When evaluating existing plans:**
+- Single file with 1-4 phases = fine
+- Single file with 5+ phases = recommend splitting into separate PHASE-N files
+- Already split into separate PHASE files = credit as a strength
+- BUILD-PHASES.md with one detailed phase + previews = suggest splitting when phase 2 begins
+
+**Example recommendation:**
+> "This plan contains 9 distinct phases in a single 2,500-line file. Recommend splitting into separate files: `plans/PHASE-1-FOUNDATION.md`, `plans/PHASE-2-SCRAPING.md`, through `plans/PHASE-9-POLISH.md`. Keep the first phase fully detailed using the patterns already established, and outline later phases to be detailed as they're approached. This improves navigation and enables focused context loading for each phase."
 
 ### QA Workflow Assessment (when applicable)
 
