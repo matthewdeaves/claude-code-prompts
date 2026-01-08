@@ -293,3 +293,133 @@ Without researching existing patterns first, fixes may technically work but viol
 
 **Why this matters:**
 Some projects need one QA session at the end. Projects with multiple frontends, device targets, or browser compatibility requirements may need several QA rounds throughout development. The key is having structure to prevent QA from becoming chaotic late-stage whack-a-mole.
+
+---
+
+## QA Round Detection and Creation
+
+When evaluating plans OR when explicitly requested, detect completed work needing QA and create feature-scoped QA tracking documents.
+
+### When Evaluating Plans: Detect and Recommend
+
+Look for:
+- Tasks marked `[x]` (completed)
+- Session status showing ✓ or "complete"
+- UI/UX features, multi-platform work, or acceptance criteria needing verification
+
+When detected, include in assessment:
+
+```markdown
+### QA Rounds Recommended
+
+Based on completed work, consider creating QA rounds for:
+
+1. **QA Round {N}: {Feature Name}**
+   - Scope: {Brief summary of what was implemented}
+   - Features: {Key testable items}
+   - Command: `use implementable skill to create QA Round {N} for {Feature}`
+```
+
+### When Creating: Generate QA Round Documents
+
+**Trigger phrases:**
+- "create QA Round {N} for {Feature}"
+- "start QA for {Feature}"
+- "set up QA testing for {Feature}"
+
+This is a **CREATION REQUEST**, not evaluation.
+
+**Workflow:**
+1. Search for existing `QA-ROUND-*.md` files to determine next round number
+2. Read implementation plan to extract features, acceptance criteria, and platforms
+3. Generate round document using project's terminology and patterns
+4. Name as: `QA-ROUND-{N}-{FEATURE-SLUG}.md` (or adapt to project's naming convention)
+5. Place in project's QA documentation location (commonly `plans/` or `docs/`)
+
+**Document structure to generate:**
+
+```markdown
+# QA Round {N}: {Feature Name}
+
+> **Scope:** {Brief description}
+> **Phase:** {Phase/sessions that implemented this}
+> **Platforms:** {Relevant platforms/devices}
+> **Created:** {Current date}
+
+## Overview
+
+{Describe what was implemented and needs testing}
+
+**Features to test:**
+- {Feature 1}
+- {Feature 2}
+
+**Testing focus:**
+- {Platform-specific areas}
+
+## Issue Log
+
+| ID | Summary | Affects | Status | Session |
+|----|---------|---------|--------|---------|
+
+### Status Key
+- **New** - Logged, not yet researched
+- **Fixed** - Code changed, awaiting verification
+- **Verified** - Confirmed working
+- **Won't Fix** - Intentional or out of scope
+
+## Test Scenarios
+
+{Generate scenarios based on acceptance criteria from implementation plan}
+
+### {Platform/Area 1}
+- [ ] {Scenario from implementation}
+
+### {Platform/Area 2}
+- [ ] {Scenario from implementation}
+
+## Session Scope
+
+{Empty initially - populated as issues are found}
+
+| Session | Issue(s) | Focus |
+|---------|----------|-------|
+
+## How to Run Sessions
+
+### Starting a Research Session
+```
+Read plans/QA-ROUND-{N}-{FEATURE}.md and research QA-{RND}-A.
+Investigate existing patterns. Update Research Findings.
+```
+
+### Starting a Fix Session
+```
+Read plans/QA-ROUND-{N}-{FEATURE}.md and implement QA-{RND}-A.
+Follow the tasks defined in the session plan.
+```
+
+### After Each Session
+1. Confirm deployment
+2. Clear caches
+3. Verify fix is live
+4. Test on target devices
+5. Update status
+6. `/clear` and continue
+
+## Fix Sessions
+
+{Sessions added as issues are found}
+
+## Round Completion
+
+- [ ] All test scenarios completed
+- [ ] All issues logged and fixed
+- [ ] All fixes verified
+```
+
+**Population guidelines:**
+1. **Extract from implementation plan:** Feature names, sessions/phases, acceptance criteria, target platforms
+2. **Generate test scenarios from:** Acceptance criteria, feature descriptions, expected behaviors
+3. **Use project's patterns:** Match their terminology, status values, session naming
+4. **Keep focused:** One round per feature or tightly-related feature group
