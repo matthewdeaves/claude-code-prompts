@@ -13,9 +13,9 @@ A library of useful skills, statuslines, and configs for Claude Code.
 
 | Statusline | Description |
 |------------|-------------|
-| `git-context` | Shows model, directory, git repo:branch, and context window usage percentage |
+| `git-context` | Shows model, directory, git repo:branch, and context % remaining until auto-compact |
 
-Example output: `[Opus] 📁 myproject | user/repo:main | context:42%`
+Example output: `[Opus] 📁 myproject | user/repo:main | ctx left:42%`
 
 ## Installation
 
