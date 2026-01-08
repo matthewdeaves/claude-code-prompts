@@ -114,4 +114,4 @@ This iterative approach produces plans that work reliably with Claude Code's ses
 
 See [cookie](https://github.com/matthewdeaves/cookie) for an example — the [WORKFLOW.md](https://github.com/matthewdeaves/cookie/blob/master/WORKFLOW.md), [QA-TESTING.md](https://github.com/matthewdeaves/cookie/blob/master/QA-TESTING.md), and [modular phase structure](https://github.com/matthewdeaves/cookie/tree/master/plans) demonstrate the result of this workflow.
 
-**commit**: Analyzes your working tree, checks for missing .gitignore entries, scans for secrets/API keys, suggests staging changes, and generates a conventional commit message based on the actual changes.
+**commit**: Analyzes your working tree, checks for missing .gitignore entries, scans for secrets/API keys, suggests staging changes, and generates a conventional commit message based on the actual changes. When QA tracking documents are present, automatically formats messages to link code changes to specific issues (e.g., QA-013, #42) with clear explanations of what each file change accomplishes.
