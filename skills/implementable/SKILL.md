@@ -338,7 +338,7 @@ This is a **CREATION REQUEST**, not evaluation.
 
 **Document structure to generate:**
 
-```markdown
+````markdown
 # QA Round {N}: {Feature Name}
 
 > **Scope:** {Brief description}
@@ -416,7 +416,7 @@ Follow the tasks defined in the session plan.
 - [ ] All test scenarios completed
 - [ ] All issues logged and fixed
 - [ ] All fixes verified
-```
+````
 
 **Population guidelines:**
 1. **Extract from implementation plan:** Feature names, sessions/phases, acceptance criteria, target platforms
