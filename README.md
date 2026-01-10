@@ -6,6 +6,8 @@ A library of useful skills, statuslines, and configs for Claude Code.
 
 | Skill | Description |
 |-------|-------------|
+| `blog-improver` | Evaluate blog post drafts and suggest improvements. Assesses against quality criteria and provides structured feedback for iteration. |
+| `blog-writer` | Transform brain dumps into structured blog posts. Use 'discover' to find themes, 'skeleton' to create outlines, or 'write' to expand drafts. |
 | `commit` | Smart git commits with security checks, .gitignore validation, and intelligent commit messages. |
 | `implementable` | Check if your implementation plan will succeed with Claude Code. Evaluates task granularity, context management, phase splitting, and creates QA tracking infrastructure. |
 
@@ -90,6 +92,37 @@ Claude will recognise the skill applies and ask to use it.
 ```
 
 ### Examples
+
+**blog-writer**: Transform scattered notes into polished blog posts through a three-stage workflow:
+
+```
+/blog-writer discover ~/notes/     # Find themes ready to write about
+/blog-writer skeleton              # Create structured outline from notes
+/blog-writer write                 # Expand skeleton into full draft
+```
+
+The skeleton mode accepts natural language direction:
+```
+/blog-writer skeleton I want to write about the hidden costs of microservices.
+Start with the promise they make, then show what happens at scale.
+Pull from architecture-notes.md for examples.
+```
+
+**blog-improver**: Evaluate drafts against quality criteria and iterate until ready to publish:
+
+```
+/blog-improver                     # Evaluate draft in conversation
+/blog-improver path/to/post.md     # Evaluate specific file
+```
+
+Provides structured feedback on thesis clarity, structure, voice, specificity, and flags common AI writing patterns to avoid.
+
+**Recommended blog workflow:**
+```
+/blog-writer skeleton → review → /blog-writer write → /blog-improver → fix issues → repeat until ready
+```
+
+---
 
 **implementable**: Checks if your implementation plan will succeed with Claude Code — evaluates whether phases fit context windows, assesses task granularity, dependencies, and ensures work follows iterative patterns.
 
