@@ -37,6 +37,18 @@ Effective plans follow an iterative "Land and Expand" pattern:
 - Can each increment be verified before proceeding?
 - Are acceptance criteria concrete and measurable?
 
+**Test Coverage Requirements:**
+- **Minimum 10% coverage target**: Plans must establish a baseline coverage goal of at least 10%. This is a floor, not a ceiling—mature projects should aim higher.
+- **Layer coverage**: If the project has both frontend and backend code, tests MUST exist for both layers. Zero tests in any layer is unacceptable.
+  - Backend tests: API endpoints, business logic, data validation, database operations
+  - Frontend tests: Component rendering, user interactions, state management, integration with backend
+- **Coverage verification**: Plan should include how coverage will be measured (e.g., `jest --coverage`, `pytest --cov`, `go test -cover`)
+
+**Detecting project layers:**
+- Frontend indicators: `package.json` with React/Vue/Angular/Svelte, `src/components/`, `.tsx`/`.jsx` files, `app/` or `pages/` directories
+- Backend indicators: `server/`, `api/`, `routes/`, Go/Python/Ruby/Java server code, database models
+- Full-stack: Both indicators present = both layers need tests
+
 ### 5. Context Management
 - Does the plan avoid requiring recall of many detailed instructions simultaneously?
 - Are related changes grouped together logically?
@@ -74,6 +86,11 @@ Only evaluate this criterion when the plan involves manual testing phases (UI/UX
 - **QA as afterthought**: Testing planned for "the end" without structure for handling discoveries
 - **Fix without research**: QA issues go straight to implementation without investigating existing patterns first (leads to architecturally inconsistent fixes)
 - **Monolithic QA document**: Single QA file with dozens of issues spanning multiple platforms, testing rounds, or concerns (context overload for focused fix sessions)
+- **No coverage target**: Plan lacks any test coverage goal (should be minimum 10%)
+- **Missing layer tests**: Full-stack project with tests only on backend OR only on frontend (both layers need coverage)
+- **Zero frontend tests**: Frontend code exists but no test files for components, interactions, or state
+- **Zero backend tests**: Backend/API code exists but no test files for endpoints, logic, or data operations
+- **No coverage measurement**: Tests exist but plan doesn't specify how to measure/verify coverage
 
 ## Instructions
 
@@ -87,7 +104,16 @@ Only evaluate this criterion when the plan involves manual testing phases (UI/UX
    - Look for QA tracking documents (QA-TESTING.md, QA.md, or similar)
    - Check if QA documents are split when appropriate (QA-001.md, QA-MOBILE.md, etc.)
 
-2. **Evaluate the system as a whole**:
+2. **Detect project layers and test coverage:**
+   - Identify if project has frontend code: Look for `package.json`, `src/components/`, `.tsx`/`.jsx`/`.vue` files, frontend frameworks
+   - Identify if project has backend code: Look for `server/`, `api/`, `routes/`, Go/Python/Ruby/Java server code
+   - Check for existing tests in each layer:
+     - Look for test directories: `tests/`, `test/`, `__tests__/`, `spec/`, `e2e/`
+     - Look for test files: `*.test.*`, `*.spec.*`, `*_test.*`, `test_*.*`
+     - Check for test frameworks: `cypress/`, `playwright/`, `jest.config.*`, `pytest.ini`, `phpunit.xml`
+   - Note any layer with zero test coverage—this is a critical gap to flag
+
+3. **Evaluate the system as a whole**:
    - Multiple plan files = deliberate splitting (credit this as a strength)
    - Separate PHASE-N-NAME.md files for multi-phase projects = excellent navigation and context management
    - Multiple QA files (when warranted by size/complexity) = same strength
@@ -95,15 +121,15 @@ Only evaluate this criterion when the plan involves manual testing phases (UI/UX
    - Quick reference files = good guardrails
    - QA tracking documents = mature approach to manual testing phases
 
-3. Evaluate against each criterion above (criteria 1-6 always; criterion 7 when manual testing is involved)
+4. Evaluate against each criterion above (criteria 1-6 always; criterion 7 when manual testing is involved)
 
-4. **Calibrate to project complexity** - a complex app with multiple frontends WILL have larger phases; focus on whether phases are actionable, not just small
+5. **Calibrate to project complexity** - a complex app with multiple frontends WILL have larger phases; focus on whether phases are actionable, not just small
 
-5. **Distinguish deliberate choices from oversights** - "TBD" items may be realistic acknowledgment of unknowns, not planning failures
+6. **Distinguish deliberate choices from oversights** - "TBD" items may be realistic acknowledgment of unknowns, not planning failures
 
-6. Identify specific problems using the "Common Problems" patterns
+7. Identify specific problems using the "Common Problems" patterns
 
-7. Provide your assessment in the format below
+8. Provide your assessment in the format below
 
 ## Output Format
 
@@ -124,6 +150,14 @@ Is this plan implementable with Claude Code?
 
 ### Strengths
 What aspects of the plan work well? Credit deliberate architectural choices.
+
+### Test Coverage Assessment
+Report on the project's test coverage status:
+- **Project layers detected**: Frontend only / Backend only / Full-stack
+- **Frontend tests**: Present / Missing (list test files found or note absence)
+- **Backend tests**: Present / Missing (list test files found or note absence)
+- **Coverage target in plan**: Yes (X%) / No / Not specified
+- **Coverage gaps**: Any layer with zero tests = critical issue
 
 ### Issues Found
 Specific problems identified, referencing the criteria above. Distinguish between:
