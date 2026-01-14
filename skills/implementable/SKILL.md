@@ -73,6 +73,37 @@ Only evaluate this criterion when the plan involves manual testing phases (UI/UX
 - For multi-platform projects: Is there device/browser-specific test coverage planned?
 - Does the workflow include: test → log → **research** → fix → verify?
 
+### 8. State Management
+
+Plans should track state at multiple levels for progress visibility:
+
+**State Hierarchy:**
+- **Phases** - High-level project milestones
+- **Sessions** - Focused work units within phases
+- **QA Issues** - Individual problems discovered during testing
+
+**Unified States:**
+| State | Meaning |
+|-------|---------|
+| `[OPEN]` | Not started |
+| `[IN PROGRESS]` | Currently being worked on |
+| `[READY TO TEST]` | Implementation complete, awaiting verification |
+| `[DONE]` | Verified and complete |
+| `[CLOSED]` | Won't fix / out of scope (QA issues only) |
+
+**State Transitions:**
+```
+OPEN → IN PROGRESS → READY TO TEST → DONE
+                          ↑___________|
+                         (test failure)
+```
+
+**Evaluate:**
+- Do phases and sessions have status tracking?
+- Are states initialized (new items start OPEN)?
+- Is there a verification path (READY TO TEST → DONE)?
+- Is state updated as work progresses?
+
 ## Common Problems to Flag
 
 - **Monolithic tasks**: Single tasks that span multiple unrelated concerns
@@ -91,6 +122,10 @@ Only evaluate this criterion when the plan involves manual testing phases (UI/UX
 - **Zero frontend tests**: Frontend code exists but no test files for components, interactions, or state
 - **Zero backend tests**: Backend/API code exists but no test files for endpoints, logic, or data operations
 - **No coverage measurement**: Tests exist but plan doesn't specify how to measure/verify coverage
+- **No state tracking**: Phases and sessions lack status indicators, making progress invisible
+- **Stale states**: Status fields exist but haven't been updated (items stuck IN PROGRESS)
+- **Missing verification path**: No criteria for moving READY TO TEST to DONE
+- **Inconsistent states**: Different terminology across documents (Fixed vs Complete vs Done)
 
 ## Instructions
 
@@ -159,6 +194,14 @@ Report on the project's test coverage status:
 - **Coverage target in plan**: Yes (X%) / No / Not specified
 - **Coverage gaps**: Any layer with zero tests = critical issue
 
+### State Management Assessment
+Report on the project's state tracking:
+- **Phase tracking**: Present with states / Present without states / Missing
+- **Session tracking**: Present with states / Present without states / Missing
+- **QA issue states**: Uses unified model / Uses custom states / Missing
+- **State currency**: Appears current / Appears stale / Cannot determine
+- **Gaps**: List any state tracking issues
+
 ### Issues Found
 Specific problems identified, referencing the criteria above. Distinguish between:
 - Actual oversights that need fixing
@@ -200,10 +243,12 @@ Just like QA documents, implementation plans should be split when they become to
 1. Create `plans/` directory if it doesn't exist
 2. Extract each phase into `plans/PHASE-N-NAME.md` (e.g., `PHASE-1-FOUNDATION.md`)
 3. Include in each PHASE file:
-   - Session Scope table (which sessions implement which tasks)
+   - **Phase status header** (e.g., `> **Status:** [OPEN]`)
+   - Session Scope table **with Status column** using `[OPEN]`/`[IN PROGRESS]`/`[READY TO TEST]`/`[DONE]`
    - Task checklist with clear acceptance criteria
    - Tech stack or models specific to this phase
    - Cross-references to supporting docs (CLAUDE.md, WORKFLOW.md)
+   - **State transition notes** explaining when sessions move between states
 4. Keep master PLANNING.md with:
    - Project overview and architecture
    - Overall tech stack
@@ -330,6 +375,63 @@ Some projects need one QA session at the end. Projects with multiple frontends, 
 
 ---
 
+## State Management Instructions for Claude
+
+When implementing plans with state tracking, follow these practices:
+
+### Before Starting Work
+
+1. **Check current state** - Read phase/session tables to identify what's OPEN or IN PROGRESS
+2. **Verify no conflicts** - Only one session should be IN PROGRESS at a time
+3. **Report state change** - Tell the user: "Starting Session 2.3 `[OPEN]` → `[IN PROGRESS]`"
+
+### During Work
+
+1. **Update state immediately** when starting:
+   ```markdown
+   | 2.3 | API endpoints | [IN PROGRESS] | Started 2024-01-15 |
+   ```
+
+2. **Use TodoWrite** to track session tasks:
+   - Create todos for each task in the session
+   - Mark todos in_progress/completed as you work
+   - Session stays IN PROGRESS until all todos complete
+
+3. **Atomic commits** - Commit meaningful changes before updating state
+
+### Completing Work
+
+1. **Mark READY TO TEST** when implementation complete:
+   ```markdown
+   | 2.3 | API endpoints | [READY TO TEST] | Implementation complete |
+   ```
+
+2. **Provide verification instructions** - How to test, expected outcomes
+
+3. **Wait for verification** before marking DONE:
+   - User confirms working → Update to `[DONE]`
+   - Issues found → Update to `[IN PROGRESS]`, create fix tasks
+
+### State Update Format
+
+Report state changes clearly:
+```
+State Update:
+- Phase 2: [IN PROGRESS] → [READY TO TEST]
+- Session 2.3: [IN PROGRESS] → [READY TO TEST]
+```
+
+### TodoWrite Coordination
+
+| Session State | TodoWrite State |
+|---------------|-----------------|
+| OPEN | No todos created |
+| IN PROGRESS | Has pending/in_progress todos |
+| READY TO TEST | All todos completed |
+| DONE | Session verified |
+
+---
+
 ## QA Round Detection and Creation
 
 When evaluating plans OR when explicitly requested, detect completed work needing QA and create feature-scoped QA tracking documents.
@@ -397,10 +499,19 @@ This is a **CREATION REQUEST**, not evaluation.
 |----|---------|---------|--------|---------|
 
 ### Status Key
-- **New** - Logged, not yet researched
-- **Fixed** - Code changed, awaiting verification
-- **Verified** - Confirmed working
-- **Won't Fix** - Intentional or out of scope
+- **[OPEN]** - Logged, not yet started
+- **[IN PROGRESS]** - Actively being researched or fixed
+- **[READY TO TEST]** - Code changed, awaiting verification
+- **[DONE]** - Verified working on target platforms
+- **[CLOSED]** - Won't fix, out of scope, or deferred
+
+### State Transitions
+- Issue discovered: → `[OPEN]`
+- Research/fix started: `[OPEN]` → `[IN PROGRESS]`
+- Code committed: `[IN PROGRESS]` → `[READY TO TEST]`
+- Verification passed: `[READY TO TEST]` → `[DONE]`
+- Test failed: `[READY TO TEST]` → `[IN PROGRESS]`
+- Out of scope: Any → `[CLOSED]`
 
 ## Test Scenarios
 
@@ -416,8 +527,9 @@ This is a **CREATION REQUEST**, not evaluation.
 
 {Empty initially - populated as issues are found}
 
-| Session | Issue(s) | Focus |
-|---------|----------|-------|
+| Session | Issue(s) | Status | Focus |
+|---------|----------|--------|-------|
+| QA-{RND}-A | | [OPEN] | |
 
 ## How to Run Sessions
 
@@ -450,6 +562,10 @@ Follow the tasks defined in the session plan.
 - [ ] All test scenarios completed
 - [ ] All issues logged and fixed
 - [ ] All fixes verified
+
+**Round Status:** [OPEN]
+**Progress:** 0/0 issues resolved
+**Last Updated:** {date}
 ````
 
 **Population guidelines:**
