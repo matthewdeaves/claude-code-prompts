@@ -156,7 +156,7 @@ OPEN → IN PROGRESS → READY TO TEST → DONE
    - Quick reference files = good guardrails
    - QA tracking documents = mature approach to manual testing phases
 
-4. Evaluate against each criterion above (criteria 1-6 always; criterion 7 when manual testing is involved)
+4. Evaluate against each criterion above (criteria 1-6 and 8 always; criterion 7 when manual testing is involved)
 
 5. **Calibrate to project complexity** - a complex app with multiple frontends WILL have larger phases; focus on whether phases are actionable, not just small
 
@@ -304,6 +304,58 @@ Just like implementation plans, QA documents should be split when they become to
 - `QA-001.md`, `QA-002.md`, `QA-003.md` - Split by testing round or batch
 - Each numbered file contains detailed session plans for that batch
 
+**Individual QA Issue Template:**
+
+For medium projects using individual issue files, each `QA-{N}.md` should follow this structure:
+
+````markdown
+# QA-{N}: {Short Title}
+
+> **Status:** [OPEN]
+> **Priority:** {Low/Medium/High/Critical}
+> **Affects:** {Components/views/platforms}
+> **Reported:** {date}
+> **Last Updated:** {date}
+
+## Problem
+
+{Clear description of what's wrong or broken. Include screenshots, error messages, or reproduction steps.}
+
+## Research
+
+{Investigation findings before implementing a fix:}
+- How does existing code handle similar scenarios?
+- What patterns are established in the codebase?
+- What does the design specify (if applicable)?
+
+## Resolution
+
+{Once fixed, document:}
+- What was changed and why
+- Commit reference: `{commit-hash}`
+- Any trade-offs or decisions made
+
+## Verification
+
+{How to confirm the fix works:}
+- Steps to reproduce the original issue
+- Expected behavior after fix
+- Platforms/browsers to test on
+````
+
+**State transitions for individual issues:**
+```
+[OPEN] → [IN PROGRESS] → [READY TO TEST] → [DONE]
+                              ↑___________|
+                             (test failure)
+```
+
+- `[OPEN]` - Issue logged, not started
+- `[IN PROGRESS]` - Research or fix underway
+- `[READY TO TEST]` - Code committed, awaiting verification
+- `[DONE]` - Verified working
+- `[CLOSED]` - Won't fix / out of scope / duplicate
+
 **Large projects (40+ issues, or multiple platforms/concerns):**
 - `QA-TESTING.md` - Master index with overall status and workflow
 - `QA-MOBILE.md`, `QA-DESKTOP.md`, `QA-BROWSER-COMPAT.md` - Split by platform/concern
@@ -360,7 +412,7 @@ The QA tracking document should include ready-to-use prompts, just like implemen
 2. Clear caches (hard refresh, service worker, CDN)
 3. Verify new code is running (check a changed element or version)
 4. Test fix on target device
-5. Update issue status (Fixed/Verified/Won't Fix)
+5. Update issue status ([READY TO TEST]/[DONE]/[CLOSED])
 6. Run `/clear`
 7. Start next session or log new issues discovered
 ```
