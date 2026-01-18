@@ -61,6 +61,7 @@ When tests are written in the same session as implementation, the developer has 
 - **Layer coverage**: If the project has both frontend and backend code, tests MUST exist for both layers. Zero tests in any layer is unacceptable.
   - Backend tests: API endpoints, business logic, data validation, database operations
   - Frontend tests: Component rendering, user interactions, state management, integration with backend
+- **Name what to test**: Testing tasks that describe categories ("write frontend tests", "test the API layer") leave coverage to interpretation. Tasks should name specific targets: "test user profile page: loading state, error handling, form submission" not "write UI tests". When a task builds something, the testing task should name that thing.
 - **Coverage verification**: Plan should include how coverage will be measured (e.g., `jest --coverage`, `pytest --cov`, `go test -cover`)
 
 **Detecting project layers:**
@@ -141,6 +142,7 @@ OPEN → IN PROGRESS → READY TO TEST → DONE
 - **Missing layer tests**: Full-stack project with tests only on backend OR only on frontend (both layers need coverage)
 - **Zero frontend tests**: Frontend code exists but no test files for components, interactions, or state
 - **Zero backend tests**: Backend/API code exists but no test files for endpoints, logic, or data operations
+- **Vague testing scope**: Testing tasks describe categories ("write unit tests", "add frontend tests") rather than naming specific files or components. Results in partial coverage based on implementer interpretation
 - **No coverage measurement**: Tests exist but plan doesn't specify how to measure/verify coverage
 - **No state tracking**: Phases and sessions lack status indicators, making progress invisible
 - **Stale states**: Status fields exist but haven't been updated (items stuck IN PROGRESS)
