@@ -36,6 +36,25 @@ Effective plans follow an iterative "Land and Expand" pattern:
 - Does the plan include test creation alongside or before implementation?
 - Can each increment be verified before proceeding?
 - Are acceptance criteria concrete and measurable?
+- **Does each session include verification as a completion criterion?** Tests should not be a separate "write tests" task scheduled for later - they should be part of completing each feature.
+
+**Session Verification Pattern:**
+Sessions that defer testing create coverage gaps. Compare:
+
+```markdown
+# Good: Verification built into each session
+| Session | Tasks | Verify |
+| A | User model | pytest tests/test_models.py passes |
+| B | Auth endpoints | pytest tests/test_auth.py passes |
+
+# Bad: Tests deferred to separate session
+| Session | Tasks |
+| A | Feature X: Backend + UI |
+| B | Feature Y: Backend + UI |
+| F | Write tests for all features |  ← Context gone, tests become superficial
+```
+
+When tests are written in the same session as implementation, the developer has full context of edge cases and error paths. When deferred, tests mock at too high a level because the implementer no longer remembers the details.
 
 **Test Coverage Requirements:**
 - **Minimum 10% coverage target**: Plans must establish a baseline coverage goal of at least 10%. This is a floor, not a ceiling—mature projects should aim higher.
@@ -118,6 +137,7 @@ OPEN → IN PROGRESS → READY TO TEST → DONE
 - **Fix without research**: QA issues go straight to implementation without investigating existing patterns first (leads to architecturally inconsistent fixes)
 - **Monolithic QA document**: Single QA file with dozens of issues spanning multiple platforms, testing rounds, or concerns (context overload for focused fix sessions)
 - **No coverage target**: Plan lacks any test coverage goal (should be minimum 10%)
+- **Deferred testing**: Tests scheduled as a separate later session instead of being part of each feature's completion criteria (leads to superficial tests that mock at too high a level)
 - **Missing layer tests**: Full-stack project with tests only on backend OR only on frontend (both layers need coverage)
 - **Zero frontend tests**: Frontend code exists but no test files for components, interactions, or state
 - **Zero backend tests**: Backend/API code exists but no test files for endpoints, logic, or data operations
