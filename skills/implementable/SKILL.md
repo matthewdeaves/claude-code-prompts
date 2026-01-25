@@ -91,6 +91,12 @@ When tests are written in the same session as implementation, the developer has 
 - For projects with security tooling: Does the plan verify tools actually execute? (not just configure them)
 - For projects with relaxed linter configs: Is there a plan to enforce standards (CI-only strict mode, tasks to fix violations, or documented justification for exceptions)?
 - For projects with linters in CI: Are warnings configured to fail the build? (e.g., `--max-warnings=0` for ESLint)
+- For multi-screen applications: Does the plan specify navigation/routing architecture?
+  - **Why this matters**: For SPAs (React, Vue, Angular, Svelte), manual state-based navigation tends toward god components managing app-wide state. For mobile apps (React Native, Flutter), proper navigation libraries prevent routing bugs. Server-rendered frameworks (CakePHP, Rails, Django, Laravel) have built-in routing and can skip this check.
+  - **Detection**: Plans that create multiple screen/page components without mentioning routing or navigation architecture
+  - **Good**: "Use React Router for navigation between 5 screens" (SPA), "Use React Navigation for screen flow" (mobile), "Manual navigation via App.tsx - justified because only 2 screens"
+  - **Bad**: "Create Home.tsx, Search.tsx, Profile.tsx, Settings.tsx..." with no mention of how users navigate between them
+  - **Skip**: Server-rendered apps where the framework provides routing (e.g., CakePHP routes, Rails routes, Django URLs)
 
 ### 7. Manual Testing & QA Workflow (when applicable)
 
