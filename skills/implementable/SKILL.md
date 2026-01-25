@@ -76,6 +76,7 @@ When tests are written in the same session as implementation, the developer has 
 
 ### 6. Supporting Infrastructure
 - Is there a CLAUDE.md or similar quick-reference file with critical rules?
+- Does CLAUDE.md include code quality gates? (e.g., max cyclomatic complexity per function, max file size, coverage thresholds)
 - Is there workflow documentation explaining how to use the plans with Claude Code?
 - Are plans split across multiple files to enable focused sessions?
   - For multi-phase projects (5+ phases): Are phases in separate PHASE-N-NAME.md files?
@@ -149,6 +150,7 @@ OPEN → IN PROGRESS → READY TO TEST → DONE
 - **Stale states**: Status fields exist but haven't been updated (items stuck IN PROGRESS)
 - **Missing verification path**: No criteria for moving READY TO TEST to DONE
 - **Inconsistent states**: Different terminology across documents (Fixed vs Complete vs Done)
+- **Missing code quality gates**: No complexity limits, file size limits, or other quality constraints in CLAUDE.md to catch problems at planning time
 
 ## Instructions
 
