@@ -84,6 +84,7 @@ When tests are written in the same session as implementation, the developer has 
 - For projects with manual testing: Is there a QA tracking document?
 - For projects with security tooling: Does the plan verify tools actually execute? (not just configure them)
 - For projects with relaxed linter configs: Is there a plan to enforce standards (CI-only strict mode, tasks to fix violations, or documented justification for exceptions)?
+- For projects with linters in CI: Are warnings configured to fail the build? (e.g., `--max-warnings=0` for ESLint)
 
 ### 7. Manual Testing & QA Workflow (when applicable)
 
@@ -156,6 +157,7 @@ OPEN → IN PROGRESS → READY TO TEST → DONE
 - **Unverified security tooling**: Security scanners configured in CI but never verified to execute (e.g., pip-audit referenced but not installed in container, SAST tools that silently fail)
 - **Partial security coverage**: Security scanning that only covers some package managers or some layers (frontend-only npm audit when backend exists, no SAST when handling sensitive data)
 - **Linter rules disabled without enforcement plan**: Lint rules ignored "for gradual adoption" or "fix incrementally" but no plan to actually enforce them (no CI-only strict mode, no tasks to fix violations, no inline suppressions with justification). Leads to permanently relaxed standards.
+- **Linter warnings allowed to pass CI**: Linters configured to run in CI but warnings don't fail the build (ESLint without `--max-warnings=0`, Ruff without `--exit-non-zero-on-fix`). Warnings accumulate because there's no enforcement mechanism.
 
 ## Instructions
 
