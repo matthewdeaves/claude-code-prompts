@@ -7,7 +7,8 @@ A library of useful skills, statuslines, and configs for Claude Code.
 | Skill | Description |
 |-------|-------------|
 | `commit` | Smart git commits with security checks, .gitignore validation, and intelligent commit messages. |
-| `implementable` | Check if your implementation plan will succeed with Claude Code. Evaluates task granularity, context management, phase splitting, and creates QA tracking infrastructure. |
+| `implementable` | Check if your implementation plan will succeed with Claude Code. Evaluates task granularity, context management, test coverage, and phase splitting. |
+| `qa-round` | Create structured QA round documents for manual testing phases. Generates tracking docs with issue logging, session planning, and verification workflows. |
 
 ## Available Statuslines
 
@@ -89,11 +90,13 @@ Claude will recognise the skill applies and ask to use it.
 /commit
 ```
 
-### Examples
+### Skill Details
 
-**implementable**: Checks if your implementation plan will succeed with Claude Code — evaluates whether phases fit context windows, assesses task granularity, dependencies, and ensures work follows iterative patterns.
+#### implementable
 
-#### Recommended Workflow
+Checks if your implementation plan will succeed with Claude Code — evaluates whether phases fit context windows, assesses task granularity, dependencies, test coverage, and ensures work follows iterative patterns.
+
+**Recommended Workflow:**
 
 This skill works best as a quality gate within an iterative planning process:
 
@@ -106,37 +109,117 @@ This skill works best as a quality gate within an iterative planning process:
 
 2. **Check** - Run `/implementable` to assess the plan against Claude Code best practices
 
-3. **Address recommendations** - Implement suggested changes (supporting infrastructure, task clarity, QA workflow)
+3. **Address recommendations** - Implement suggested changes (supporting infrastructure, task clarity, test coverage)
 
 4. **Re-check** - Run the skill again and repeat until the assessment indicates the plan is ready to implement
 
 This iterative approach produces plans that work reliably with Claude Code's session-based workflow.
 
-#### Key Capabilities
+**Key Evaluation Criteria:**
 
-The skill evaluates 7 core criteria and provides specific recommendations:
+The skill evaluates 9 core criteria:
+1. **Task Granularity** - Ensures tasks are focused, actionable, and completable in focused sessions
+2. **Dependency Structure** - Validates that foundational components are scheduled before dependent features
+3. **Instruction Clarity** - Checks that tasks are specific with defined success criteria
+4. **Testability** - Verifies tests are built into each session (not deferred to later)
+5. **Context Management** - Validates that information is organized for per-task context loading
+6. **Supporting Infrastructure** - Checks for CLAUDE.md, workflow docs, CI/CD, security scanning
+7. **Manual Testing & QA Workflow** - Evaluates QA tracking structure (when applicable)
+8. **State Management** - Ensures phases/sessions have progress tracking
+9. **Architectural Patterns** - Detects monolithic files, missing refactoring steps, and shared utilities
 
-**Planning Structure:**
-- **Phase Splitting** - Detects monolithic plans (5+ phases in one file) and recommends splitting into separate `PHASE-N-NAME.md` files for better navigation and context management
-- **Task Granularity** - Ensures tasks are focused, actionable, and completable in focused sessions
-- **Context Management** - Validates that information is organized for per-task context loading
+**Document Splitting Recommendations:**
+- Detects monolithic plans (5+ phases in one file) and recommends splitting into separate `PHASE-N-NAME.md` files
+- Recommends splitting QA documents (30+ issues) by testing round or platform
+- Validates that split documents follow modular patterns
 
-**QA Infrastructure:**
-- **QA Round Detection** - When evaluating plans with completed work, detects features needing manual testing and suggests creating feature-scoped QA rounds
-- **QA Round Creation** - Generates `QA-ROUND-N-FEATURE.md` documents on request with test scenarios extracted from implementation acceptance criteria
-- **QA Document Splitting** - Recommends splitting monolithic QA files (30+ issues) by testing round or platform
-
-**Usage Examples:**
+**How to invoke:**
 ```
-# Evaluate a plan
+# Ask naturally
+Is my plan implementable?
+Check if this plan will work with Claude Code
+
+# Or use the skill directly
 /implementable
-
-# Create a QA round for completed work
-create QA Round 1 for Recipe Remix
 ```
 
-The skill will either evaluate the plan (providing recommendations) or create QA infrastructure (generating documents), depending on your request.
+**Example output:**
+- Overall rating (Implementable / Needs Work / Not Yet Implementable)
+- Planning ecosystem found (docs, supporting files)
+- Strengths identified
+- Test coverage assessment (frontend/backend layers)
+- Security scanning assessment
+- State management assessment
+- Issues found with specific recommendations
+- Suggested changes
 
-See [cookie](https://github.com/matthewdeaves/cookie) for an example — the [WORKFLOW.md](https://github.com/matthewdeaves/cookie/blob/master/WORKFLOW.md) and [modular phase structure](https://github.com/matthewdeaves/cookie/tree/master/plans) demonstrate the recommended planning patterns. Note that the cookie project's [QA-TESTING.md](https://github.com/matthewdeaves/cookie/blob/master/QA-TESTING.md) uses a monolithic structure (developed before QA Round capabilities were added); new projects can use feature-scoped QA rounds instead.
+See [cookie](https://github.com/matthewdeaves/cookie) for an example — the [WORKFLOW.md](https://github.com/matthewdeaves/cookie/blob/master/WORKFLOW.md) and [modular phase structure](https://github.com/matthewdeaves/cookie/tree/master/plans) demonstrate the recommended planning patterns.
 
-**commit**: Analyzes your working tree, checks for missing .gitignore entries, scans for secrets/API keys, suggests staging changes, and generates a conventional commit message based on the actual changes. When QA tracking documents are present, automatically formats messages to link code changes to specific issues (e.g., QA-013, #42) with clear explanations of what each file change accomplishes.
+---
+
+#### qa-round
+
+Create structured QA round documents for manual testing phases. Generates tracking docs with issue logging, session planning, and verification workflows.
+
+**When to use:**
+- Implementation work is complete and needs manual testing
+- UI/UX features need verification across devices/browsers
+- A feature has acceptance criteria that require hands-on testing
+- You need to organize manual testing into structured rounds
+
+**What it creates:**
+
+A `QA-ROUND-N-FEATURE.md` document with:
+1. **Issue Log Table** - Track discovered issues with IDs, status, and session assignments
+2. **Test Scenarios** - Derived from implementation plan's acceptance criteria
+3. **Session Scope** - Group related issues into focused fix sessions
+4. **Workflow Instructions** - Ready-to-use prompts for research, fix, and verification sessions
+5. **State Tracking** - Progress visibility using unified state model
+
+**How to invoke:**
+```
+# Create a QA round for completed work
+create QA Round 1 for user authentication
+start QA round for Recipe Remix
+set up QA testing for the dashboard feature
+
+# Or use the skill directly
+/qa-round
+```
+
+**QA Workflow:**
+
+The generated document supports this 4-phase workflow:
+1. **Test & Log** - Find issues on device, record with ID, summary, screenshots
+2. **Research** - For each issue, investigate before defining the fix (check existing patterns, design specs)
+3. **Plan & Fix** - Define tasks based on research, implement in focused session
+4. **Verify** - Confirm deployment, clear caches, test on target devices
+
+**Document splitting:**
+- Small projects (1-15 issues): Single `QA-TESTING.md`
+- Medium projects (15-40 issues): Numbered rounds (`QA-ROUND-1.md`, `QA-ROUND-2.md`)
+- Large projects (40+ issues): Split by platform (`QA-MOBILE.md`, `QA-DESKTOP.md`) or round
+
+**Templates:**
+
+Uses templates from `skills/implementable/templates/`:
+- `QA-ROUND-TEMPLATE.md` - Full round structure
+- `QA-ISSUE-TEMPLATE.md` - Individual issue tracking
+
+Note: The cookie project's [QA-TESTING.md](https://github.com/matthewdeaves/cookie/blob/master/QA-TESTING.md) uses a monolithic structure (developed before this skill existed); new projects benefit from feature-scoped QA rounds.
+
+---
+
+#### commit
+
+Analyzes your working tree, checks for missing .gitignore entries, scans for secrets/API keys, suggests staging changes, and generates a conventional commit message based on the actual changes. When QA tracking documents are present, automatically formats messages to link code changes to specific issues (e.g., QA-013, #42) with clear explanations of what each file change accomplishes.
+
+**How to invoke:**
+```
+# Ask naturally
+Commit my changes
+Create a commit
+
+# Or use the skill directly
+/commit
+```

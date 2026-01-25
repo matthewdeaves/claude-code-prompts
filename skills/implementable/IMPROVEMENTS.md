@@ -1,6 +1,31 @@
-# Implementable Skill - Future Improvements
+# Implementable Skill - Improvements
 
 Improvement suggestions identified during review on 2026-01-15.
+
+**Status:** Most improvements have been implemented as of 2026-01-25. See sections below for details.
+
+## Completed Improvements (2026-01-25)
+
+### Implemented
+- ✅ **Split the skill** - QA round creation extracted to `skills/qa-round/SKILL.md`
+- ✅ **Extract templates** - Templates moved to `skills/implementable/templates/`
+- ✅ **Consolidate state management** - Deduplicated state transition diagrams
+- ✅ **Add section navigation** - Table of contents added to main skill
+- ✅ **Deduplicate splitting guidance** - Unified into "Document Splitting Principles" section
+- ✅ **State transition diagram consolidation** - Defined once, referenced elsewhere
+- ✅ **Remove redundant sections** - Common Problems list removed (duplicated criteria)
+- ✅ **Remove operational guidance** - State Management Instructions removed (doesn't belong in evaluation skill)
+- ✅ **Simplify tool/framework lists** - Generic descriptions instead of exhaustive catalogs
+
+### Results
+- Main skill reduced from 719 to 380 lines (47% reduction)
+- Created separate qa-round skill (195 lines)
+- Extracted reusable templates (128 lines total)
+- Improved maintainability and focus
+
+## Original Improvement Suggestions
+
+Below are the original suggestions from the 2026-01-15 review. Most have been implemented.
 
 ## Structural Improvements
 
