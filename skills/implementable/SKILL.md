@@ -137,6 +137,7 @@ OPEN → IN PROGRESS → READY TO TEST → DONE
 - **QA as afterthought**: Testing planned for "the end" without structure for handling discoveries
 - **Fix without research**: QA issues go straight to implementation without investigating existing patterns first (leads to architecturally inconsistent fixes)
 - **Monolithic QA document**: Single QA file with dozens of issues spanning multiple platforms, testing rounds, or concerns (context overload for focused fix sessions)
+- **Monolithic implementation files**: Large files (300+ lines) that inline logic instead of extracting to separate modules. Often paired with low duplication metrics - nothing duplicates when everything is in one file. Common in UI screens with inline sections/tabs, API handlers with repeated error patterns, or service files with embedded validation.
 - **No coverage target**: Plan lacks any test coverage goal (should be minimum 10%)
 - **Deferred testing**: Tests scheduled as a separate later session instead of being part of each feature's completion criteria (leads to superficial tests that mock at too high a level)
 - **Missing layer tests**: Full-stack project with tests only on backend OR only on frontend (both layers need coverage)
