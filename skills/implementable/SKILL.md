@@ -82,6 +82,12 @@ When tests are written in the same session as implementation, the developer has 
   - For multi-phase projects (5+ phases): Are phases in separate PHASE-N-NAME.md files?
 - Is there guidance on session management (when to /clear, how to scope work)?
 - For projects with manual testing: Is there a QA tracking document?
+- For projects with dependencies: Does the plan include dependency vulnerability scanning in CI?
+  - Node.js (package.json) → npm audit or npm audit signatures
+  - Python (requirements.txt/pyproject.toml/Pipfile) → pip-audit or safety
+  - Go (go.mod) → govulncheck
+  - Ruby (Gemfile) → bundler-audit
+  - Rust (Cargo.toml) → cargo audit
 - For projects with security tooling: Does the plan verify tools actually execute? (not just configure them)
 - For projects with relaxed linter configs: Is there a plan to enforce standards (CI-only strict mode, tasks to fix violations, or documented justification for exceptions)?
 - For projects with linters in CI: Are warnings configured to fail the build? (e.g., `--max-warnings=0` for ESLint)
@@ -154,6 +160,7 @@ OPEN → IN PROGRESS → READY TO TEST → DONE
 - **Missing verification path**: No criteria for moving READY TO TEST to DONE
 - **Inconsistent states**: Different terminology across documents (Fixed vs Complete vs Done)
 - **Missing code quality gates**: No complexity limits, file size limits, or other quality constraints in CLAUDE.md to catch problems at planning time
+- **No dependency vulnerability scanning**: Project has dependencies (package.json, requirements.txt, go.mod, Gemfile, Cargo.toml) but no CI job scanning for known vulnerabilities (npm audit, pip-audit, govulncheck, bundler-audit, cargo audit)
 - **Unverified security tooling**: Security scanners configured in CI but never verified to execute (e.g., pip-audit referenced but not installed in container, SAST tools that silently fail)
 - **Partial security coverage**: Security scanning that only covers some package managers or some layers (frontend-only npm audit when backend exists, no SAST when handling sensitive data)
 - **Linter rules disabled without enforcement plan**: Lint rules ignored "for gradual adoption" or "fix incrementally" but no plan to actually enforce them (no CI-only strict mode, no tasks to fix violations, no inline suppressions with justification). Leads to permanently relaxed standards.
@@ -180,7 +187,20 @@ OPEN → IN PROGRESS → READY TO TEST → DONE
      - Check for test frameworks: `cypress/`, `playwright/`, `jest.config.*`, `pytest.ini`, `phpunit.xml`
    - Note any layer with zero test coverage—this is a critical gap to flag
 
-3. **Evaluate the system as a whole**:
+3. **Detect dependency files and security scanning:**
+   - Check for dependency manifests:
+     - Node.js: `package.json`, `package-lock.json`, `yarn.lock`, `pnpm-lock.yaml`
+     - Python: `requirements.txt`, `Pipfile`, `Pipfile.lock`, `pyproject.toml`, `poetry.lock`
+     - Go: `go.mod`, `go.sum`
+     - Ruby: `Gemfile`, `Gemfile.lock`
+     - Rust: `Cargo.toml`, `Cargo.lock`
+     - PHP: `composer.json`, `composer.lock`
+   - If dependency files exist, check for vulnerability scanning in CI:
+     - Look for npm audit, pip-audit, govulncheck, bundler-audit, cargo audit in CI config
+     - Check `.github/workflows/`, `.gitlab-ci.yml`, `Jenkinsfile`, etc.
+   - Flag if dependencies exist but no vulnerability scanning is configured
+
+4. **Evaluate the system as a whole**:
    - Multiple plan files = deliberate splitting (credit this as a strength)
    - Separate PHASE-N-NAME.md files for multi-phase projects = excellent navigation and context management
    - Multiple QA files (when warranted by size/complexity) = same strength
@@ -225,6 +245,13 @@ Report on the project's test coverage status:
 - **Backend tests**: Present / Missing (list test files found or note absence)
 - **Coverage target in plan**: Yes (X%) / No / Not specified
 - **Coverage gaps**: Any layer with zero tests = critical issue
+
+### Security Scanning Assessment
+Report on the project's dependency vulnerability scanning:
+- **Dependency files detected**: List found (package.json, requirements.txt, go.mod, etc.)
+- **Vulnerability scanning in CI**: Present / Missing / Partial (list which scanners found)
+- **Scanner verification**: If present, does plan verify scanners execute? Yes / No / Not mentioned
+- **Critical gaps**: Dependencies exist but no scanning = critical issue
 
 ### State Management Assessment
 Report on the project's state tracking:
