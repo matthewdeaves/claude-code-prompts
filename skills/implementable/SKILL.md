@@ -91,6 +91,16 @@ When tests are written in the same session as implementation, the developer has 
 - For projects with security tooling: Does the plan verify tools actually execute? (not just configure them)
 - For projects with relaxed linter configs: Is there a plan to enforce standards (CI-only strict mode, tasks to fix violations, or documented justification for exceptions)?
 - For projects with linters in CI: Are warnings configured to fail the build? (e.g., `--max-warnings=0` for ESLint)
+- For projects with CI workflows: Are substantial scripts embedded in config files or extracted to testable files?
+  - **Why this matters**: Embedding code in CI config files (via heredocs, inline scripts) makes it impossible to run locally, test in isolation, or maintain effectively. The [Cookie metrics tooling](https://matthewdeaves.com/blog/2026-01-19-prototype-verdict-code-review/metrics-tooling-review/) had 800+ lines of Python/JavaScript in YAML heredocs, making it the most difficult-to-maintain part of the project.
+  - **Detection**: Scan CI config files (`.github/workflows/*.yml`, `.gitlab-ci.yml`, `Jenkinsfile`, etc.) for heredocs (`<< 'EOF'`, `<< EOF`, `<< 'PYEOF'`, etc.) or inline scripts exceeding ~50-100 lines
+  - **Good**: "Extract metric calculation to `.github/scripts/generate-dashboard.py`", "CI calls `scripts/build-report.sh` for reusable logic"
+  - **Bad**: 200-line Python script embedded in YAML heredoc, 150-line JavaScript inline in GitHub Actions step
+  - **Suggest**: "Extract scripts to separate files in `.github/scripts/` (or `scripts/`, `ci/`) for local testing and maintainability"
+- For projects with test suites but no CI: Does the plan include running tests automatically?
+  - **Detection**: Test files/config exist (`pytest.ini`, `jest.config.js`, `__tests__/`, `tests/`, `vitest.config.*`) but no CI config files (`.github/workflows/`, `.gitlab-ci.yml`, etc.)
+  - **Suggest**: "Consider adding CI to run tests on every commit (prevents regressions)" - keep generic, don't prescribe specific platforms
+  - **Skip**: If project is explicitly a prototype, small script, or single-developer tool where automated testing isn't warranted
 - For multi-screen applications: Does the plan specify navigation/routing architecture?
   - **Why this matters**: For SPAs (React, Vue, Angular, Svelte), manual state-based navigation tends toward god components managing app-wide state. For mobile apps (React Native, Flutter), proper navigation libraries prevent routing bugs. Server-rendered frameworks (CakePHP, Rails, Django, Laravel) have built-in routing and can skip this check.
   - **Detection**: Plans that create multiple screen/page components without mentioning routing or navigation architecture
@@ -171,6 +181,8 @@ OPEN → IN PROGRESS → READY TO TEST → DONE
 - **No dependency vulnerability scanning**: Project has dependencies (package.json, requirements.txt, go.mod, Gemfile, Cargo.toml) but no CI job scanning for known vulnerabilities (npm audit, pip-audit, govulncheck, bundler-audit, cargo audit)
 - **Unverified security tooling**: Security scanners configured in CI but never verified to execute (e.g., pip-audit referenced but not installed in container, SAST tools that silently fail)
 - **Partial security coverage**: Security scanning that only covers some package managers or some layers (frontend-only npm audit when backend exists, no SAST when handling sensitive data)
+- **Embedded CI scripts**: Substantial code (>50-100 lines) embedded in CI config files via heredocs or inline scripts instead of extracted to testable files. Makes debugging impossible, prevents local execution, and creates maintenance burden. See [Cookie metrics tooling review](https://matthewdeaves.com/blog/2026-01-19-prototype-verdict-code-review/metrics-tooling-review/) for an example where 800+ lines of Python/JavaScript in YAML heredocs became the most difficult-to-maintain part of the project.
+- **Tests without CI**: Project has test suite (pytest.ini, jest.config.js, tests/ directory) but no CI to run tests automatically, allowing regressions to slip through
 - **Linter rules disabled without enforcement plan**: Lint rules ignored "for gradual adoption" or "fix incrementally" but no plan to actually enforce them (no CI-only strict mode, no tasks to fix violations, no inline suppressions with justification). Leads to permanently relaxed standards.
 - **Linter warnings allowed to pass CI**: Linters configured to run in CI but warnings don't fail the build (ESLint without `--max-warnings=0`, Ruff without `--exit-non-zero-on-fix`). Warnings accumulate because there's no enforcement mechanism.
 
@@ -208,7 +220,19 @@ OPEN → IN PROGRESS → READY TO TEST → DONE
      - Check `.github/workflows/`, `.gitlab-ci.yml`, `Jenkinsfile`, etc.
    - Flag if dependencies exist but no vulnerability scanning is configured
 
-4. **Evaluate the system as a whole**:
+4. **Detect CI configuration issues:**
+   - Check for CI config files: `.github/workflows/`, `.gitlab-ci.yml`, `Jenkinsfile`, `azure-pipelines.yml`, `.circleci/config.yml`
+   - If CI configs exist, scan for embedded scripts via heredocs:
+     - Look for heredoc patterns: `<< 'EOF'`, `<< EOF`, `<< 'PYEOF'`, `<< "EOF"`, etc.
+     - Estimate line count between heredoc start and `EOF` marker
+     - Flag if any embedded script exceeds ~50-100 lines
+     - Suggest: "Extract to `.github/scripts/` (or `scripts/`, `ci/`) for testability"
+   - Check for test suite without CI:
+     - Look for test indicators: `pytest.ini`, `jest.config.*`, `vitest.config.*`, `__tests__/`, `tests/`, `test/`, `spec/`
+     - If tests exist but no CI configs found, suggest: "Consider adding CI to run tests automatically"
+     - Skip suggestion if project is clearly a prototype or single-developer tool
+
+5. **Evaluate the system as a whole**:
    - Multiple plan files = deliberate splitting (credit this as a strength)
    - Separate PHASE-N-NAME.md files for multi-phase projects = excellent navigation and context management
    - Multiple QA files (when warranted by size/complexity) = same strength
@@ -216,11 +240,11 @@ OPEN → IN PROGRESS → READY TO TEST → DONE
    - Quick reference files = good guardrails
    - QA tracking documents = mature approach to manual testing phases
 
-4. Evaluate against each criterion above (criteria 1-6 and 8 always; criterion 7 when manual testing is involved)
+6. Evaluate against each criterion above (criteria 1-6 and 8 always; criterion 7 when manual testing is involved)
 
-5. **Calibrate to project complexity** - a complex app with multiple frontends WILL have larger phases; focus on whether phases are actionable, not just small
+7. **Calibrate to project complexity** - a complex app with multiple frontends WILL have larger phases; focus on whether phases are actionable, not just small
 
-6. **Distinguish deliberate choices from oversights** - "TBD" items may be realistic acknowledgment of unknowns, not planning failures
+8. **Distinguish deliberate choices from oversights** - "TBD" items may be realistic acknowledgment of unknowns, not planning failures
 
 7. Identify specific problems using the "Common Problems" patterns
 
