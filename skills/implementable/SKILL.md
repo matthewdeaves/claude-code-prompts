@@ -82,6 +82,7 @@ When tests are written in the same session as implementation, the developer has 
   - For multi-phase projects (5+ phases): Are phases in separate PHASE-N-NAME.md files?
 - Is there guidance on session management (when to /clear, how to scope work)?
 - For projects with manual testing: Is there a QA tracking document?
+- For projects with security tooling: Does the plan verify tools actually execute? (not just configure them)
 
 ### 7. Manual Testing & QA Workflow (when applicable)
 
@@ -151,6 +152,8 @@ OPEN → IN PROGRESS → READY TO TEST → DONE
 - **Missing verification path**: No criteria for moving READY TO TEST to DONE
 - **Inconsistent states**: Different terminology across documents (Fixed vs Complete vs Done)
 - **Missing code quality gates**: No complexity limits, file size limits, or other quality constraints in CLAUDE.md to catch problems at planning time
+- **Unverified security tooling**: Security scanners configured in CI but never verified to execute (e.g., pip-audit referenced but not installed in container, SAST tools that silently fail)
+- **Partial security coverage**: Security scanning that only covers some package managers or some layers (frontend-only npm audit when backend exists, no SAST when handling sensitive data)
 
 ## Instructions
 
