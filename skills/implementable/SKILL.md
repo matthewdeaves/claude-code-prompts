@@ -345,6 +345,27 @@ Concrete suggestions to improve the plan. Keep recommendations proportionate - d
 - Gaps in verification/testing
 - Document splitting when appropriate (5+ phases, 30+ QA issues)
 
+### Applying Recommendations (If Requested)
+
+**If the user asks you to apply these recommendations to the plan:**
+
+- Make changes directly to the plan document
+- Do NOT add meta-commentary sections like "Recent Updates" or "Change Log"
+- Do NOT add sections explaining what you changed
+- Plans should be self-documenting - let git history track revisions
+- Update the plan as if it was written this way from the beginning
+
+**Example of what NOT to do:**
+```markdown
+## Recent Updates
+This plan has been updated based on implementability review:
+1. Phase order swapped
+2. State tracking added
+...
+```
+
+**Why:** Meta-commentary is noise. The plan's structure should make the approach clear without explaining its revision history. If someone needs to see what changed, they can use `git diff`.
+
 ### QA Workflow Assessment (when applicable)
 
 Only include this section when the plan involves manual testing phases.
