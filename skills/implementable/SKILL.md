@@ -1,7 +1,7 @@
 ---
 name: implementable
 description: Check if your implementation plan will succeed with Claude Code. Evaluates whether phases fit context windows and follow iterative patterns for session-based development.
-allowed-tools: Read Glob Grep
+allowed-tools: Read Glob Grep Task
 ---
 
 # Is Your Plan Implementable?
@@ -213,49 +213,58 @@ See the `qa-round` skill for creating structured QA tracking documents.
 
 ## Instructions
 
-**IMPORTANT**: When searching for files, remember that Linux filesystems are case-sensitive. When instructions list multiple variants (e.g., "CLAUDE.md, claude.md"), you MUST search for each variant separately.
+### Step 1: Launch Parallel Explore Agents
 
-1. **Search for the full planning ecosystem**, not just a single file:
-   - Look for workflow/process guides (WORKFLOW.md, CONTRIBUTING.md)
-   - Look for quick reference files (CLAUDE.md, claude.md)
-   - Check if plans are deliberately split across multiple files (this is a positive pattern)
-   - Check for a plans/ or docs/ directory
-   - Look for QA tracking documents (QA-TESTING.md, QA.md, or similar)
-   - Check if QA documents are split when appropriate
+**CRITICAL**: Always use parallel Explore agents to gather information. This prevents context bloat when evaluating large planning ecosystems. Launch ALL of these agents simultaneously in a single message:
 
-2. **Detect project layers and test coverage:**
-   - Identify if project has frontend code: Look for frontend framework indicators
-   - Identify if project has backend code: Look for server directories, API routes, database models
-   - Check for existing tests in each layer:
-     - Look for test directories: `tests/`, `test/`, `__tests__/`, `spec/`, `e2e/`
-     - Look for test files with common naming patterns
-     - Check for test framework configs
-   - Note any layer with zero test coverage—this is a critical gap to flag
+| Agent | Search Target | What to Find |
+|-------|---------------|--------------|
+| **Find planning documents** | Plan files | BUILD-PHASES.md, IMPLEMENTATION.md, PLANNING.md, plans/*.md, PHASE-*.md |
+| **Find workflow docs** | Process guides | WORKFLOW.md, CONTRIBUTING.md, CLAUDE.md, claude.md, README.md |
+| **Find QA/test docs** | QA tracking | QA-TESTING.md, QA.md, QA-*.md, test plans |
+| **Analyze CI/deps config** | Infrastructure | CI configs (.github/workflows, .gitlab-ci.yml), package.json, requirements.txt, go.mod, etc. Check for vulnerability scanning, embedded scripts |
+| **Analyze source architecture** | Code structure | Frontend indicators (components/, pages/, JSX/TSX), backend indicators (api/, server/, routes/), test directories (tests/, __tests__/, spec/) |
 
-3. **Detect dependency files and security scanning:**
-   - Check for dependency manifests (package.json, requirements.txt, go.mod, Gemfile, Cargo.toml, composer.json, etc.)
-   - If dependency files exist, check for vulnerability scanning in CI configs
-   - Flag if dependencies exist but no vulnerability scanning is configured
+**Agent prompts should be specific**. Example for planning documents agent:
+> "Search for implementation plan files. Look for: BUILD-PHASES.md, IMPLEMENTATION.md, PLANNING.md, any files in plans/ directory, PHASE-*.md files. Report file paths found and summarize the structure (number of phases, whether split across files)."
 
-4. **Detect CI configuration issues:**
-   - Check for CI config files in standard locations
-   - If CI configs exist, scan for embedded scripts via heredocs (estimate line count)
-   - Flag if any embedded script exceeds ~50-100 lines
-   - Check for test suite without CI: tests exist but no CI automation
-   - Skip CI suggestion if project is clearly a prototype or single-developer tool
+**IMPORTANT**: Linux filesystems are case-sensitive. When searching for files like CLAUDE.md, agents must search for both CLAUDE.md and claude.md separately.
 
-5. **Evaluate the system as a whole**:
-   - Multiple plan files = deliberate splitting (credit this as a strength)
+### Step 2: Synthesize Agent Results
+
+Once all agents return, combine their findings to evaluate:
+
+1. **Planning ecosystem completeness**:
+   - Multiple plan files = deliberate splitting (credit as strength)
    - Separate PHASE files for multi-phase projects = excellent navigation
-   - Multiple QA files (when warranted) = same strength
-   - Workflow guides that explain session management = strong context management
-   - Quick reference files = good guardrails
+   - Workflow guides explaining session management = strong context management
+   - Quick reference files (CLAUDE.md) = good guardrails
 
-6. Evaluate against each criterion above (criteria 1-8 always; criterion 7 when manual testing is involved)
+2. **Test coverage by layer**:
+   - Full-stack projects need tests in BOTH frontend and backend
+   - Zero tests in any layer = critical gap
+   - Check for coverage targets in plan (minimum 10%)
 
-7. **Calibrate to project complexity** - a complex app with multiple frontends WILL have larger phases; focus on whether phases are actionable, not just small
+3. **Infrastructure health**:
+   - Dependencies exist → vulnerability scanning should exist
+   - CI configs with >50-100 line embedded scripts → flag for extraction
+   - Tests exist but no CI → suggest automation
 
-8. **Distinguish deliberate choices from oversights** - "TBD" items may be realistic acknowledgment of unknowns, not planning failures
+4. **QA structure** (when manual testing is involved):
+   - Issue tracking system present?
+   - Research phase before fixes?
+   - Verification criteria defined?
+
+### Step 3: Evaluate Against Criteria
+
+Evaluate against criteria 1-9 from the "What Makes a Plan Implementable?" section:
+- Criteria 1-6, 8-9: Always evaluate
+- Criterion 7 (QA Workflow): Only when manual testing is involved
+
+### Step 4: Calibrate Assessment
+
+- **Calibrate to project complexity** - complex apps with multiple frontends WILL have larger phases; focus on whether phases are actionable, not just small
+- **Distinguish deliberate choices from oversights** - "TBD" items may be realistic acknowledgment of unknowns, not planning failures
 
 ## Output Format
 
