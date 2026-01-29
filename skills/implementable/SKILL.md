@@ -354,9 +354,33 @@ Concrete suggestions to improve the plan. Keep recommendations proportionate - d
 - Gaps in verification/testing
 - Document splitting when appropriate (5+ phases, 30+ QA issues)
 
-### Applying Recommendations (If Requested)
+### Apply Changes Prompt
 
-**If the user asks you to apply these recommendations to the plan:**
+After presenting all findings above, use AskUserQuestion to offer the user options. If no issues were found, skip this prompt and inform the user the plan passed review.
+
+```
+question: "How would you like to proceed with these recommendations?"
+header: "Apply"
+options:
+  - label: "Apply all recommendations (Recommended)"
+    description: "Implement every suggestion from the review - test coverage, state tracking, document splitting, and all other changes"
+  - label: "Apply critical issues only"
+    description: "Fix only the most important issues: missing tests, security gaps, and blocking problems"
+```
+
+**If user selects "Apply all recommendations":** Proceed to apply every recommendation from the Issues Found and Recommended Changes sections.
+
+**If user selects "Apply critical issues only":** Apply only items marked as critical or blocking:
+- Missing test coverage for any layer
+- Security scanning gaps
+- Blocking dependency issues
+- Missing verification paths
+
+**If user provides custom input:** Follow their specific instructions for which changes to make.
+
+### Applying Recommendations
+
+When applying changes (either from user selection or explicit request):
 
 - Make changes directly to the plan document
 - Do NOT add meta-commentary sections like "Recent Updates" or "Change Log"
