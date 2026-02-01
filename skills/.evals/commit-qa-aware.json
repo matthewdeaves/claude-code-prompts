@@ -1,0 +1,16 @@
+{
+  "skills": ["committing"],
+  "query": "Commit these QA fixes",
+  "files": ["src/timer.js", "src/play.js", "QA-TESTING.md"],
+  "expected_behavior": [
+    "Detects QA tracking documents in changeset",
+    "Reads diff to extract issue IDs (QA-###, #42, BUG-123, etc.)",
+    "Maps code changes to specific issues",
+    "Generates commit message with issue ID in subject",
+    "For single issue: Formats as 'fix: <issue title> (<issue-id>)'",
+    "For multiple issues: Groups changes by issue with subsections",
+    "Links specific files to what they fix for each issue",
+    "Includes QA doc update in commit body",
+    "Preserves conventional commit format while being QA-aware"
+  ]
+}

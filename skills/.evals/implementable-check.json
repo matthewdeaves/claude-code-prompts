@@ -1,0 +1,17 @@
+{
+  "skills": ["checking-implementability"],
+  "query": "Check if this implementation plan will work with Claude Code",
+  "files": ["BUILD-PHASES.md", "IMPLEMENTATION-PLAN.md"],
+  "expected_behavior": [
+    "Reads the implementation plan document",
+    "Evaluates task granularity (tasks should be focused, not sprawling)",
+    "Checks if there's a clearly defined minimal core ('Land' phase)",
+    "Verifies tasks can be completed independently without excessive context",
+    "Assesses if each task touches reasonable number of files (ideally <5-10)",
+    "Checks for iterative 'Land and Expand' pattern",
+    "Evaluates test coverage provisions",
+    "Checks for session/phase splitting when tasks exceed context limits",
+    "Provides specific, actionable feedback on what to improve",
+    "If QA workflow exists: assesses QA round structure and session planning"
+  ]
+}

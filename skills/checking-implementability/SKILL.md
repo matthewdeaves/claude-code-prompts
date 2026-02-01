@@ -1,10 +1,10 @@
 ---
-name: implementable
+name: checking-implementability
 description: Check if your implementation plan will succeed with Claude Code. Evaluates whether phases fit context windows and follow iterative patterns for session-based development.
 allowed-tools: Read Glob Grep Task
 ---
 
-# Is Your Plan Implementable?
+# Checking Implementability
 
 Check if your implementation plan will succeed when executed with Claude Code's session-based workflow.
 

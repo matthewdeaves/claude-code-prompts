@@ -6,9 +6,9 @@ A library of useful skills, statuslines, and configs for Claude Code.
 
 | Skill | Description |
 |-------|-------------|
-| `commit` | Smart git commits with security checks, .gitignore validation, and intelligent commit messages. |
-| `implementable` | Check if your implementation plan will succeed with Claude Code. Evaluates task granularity, context management, test coverage, and phase splitting. |
-| `qa-round` | Create structured QA round documents for manual testing phases. Generates tracking docs with issue logging, session planning, and verification workflows. |
+| `committing` | Smart git commits with security checks, .gitignore validation, and intelligent commit messages. |
+| `checking-implementability` | Check if your implementation plan will succeed with Claude Code. Evaluates task granularity, context management, test coverage, and phase splitting. |
+| `creating-qa-rounds` | Create structured QA round documents for manual testing phases. Generates tracking docs with issue logging, session planning, and verification workflows. |
 
 ## Available Statuslines
 
@@ -34,7 +34,7 @@ cd claude-code-prompts
 ./install.sh --all
 
 # Install a specific skill
-./install.sh implementable
+./install.sh checking-implementability
 
 # Install all skills only
 ./install.sh --all-skills
@@ -49,7 +49,7 @@ cd claude-code-prompts
 
 **Skills** - copy to your personal skills directory:
 ```bash
-cp -r skills/implementable ~/.claude/skills/
+cp -r skills/checking-implementability ~/.claude/skills/
 ```
 
 **Statuslines** - copy script and update settings:
@@ -84,15 +84,15 @@ Claude will recognise the skill applies and ask to use it.
 
 **Or ask Claude to run it:**
 ```
-/implementable
+/checking-implementability
 ```
 ```
-/commit
+/committing
 ```
 
 ### Skill Details
 
-#### implementable
+#### checking-implementability
 
 Checks if your implementation plan will succeed with Claude Code — evaluates whether phases fit context windows, assesses task granularity, dependencies, test coverage, and ensures work follows iterative patterns.
 
@@ -107,7 +107,7 @@ This skill works best as a quality gate within an iterative planning process:
    - Improve task breakdown and session boundaries
    - Continue until the plan covers all requirements
 
-2. **Check** - Run `/implementable` to assess the plan against Claude Code best practices
+2. **Check** - Run `/checking-implementability` to assess the plan against Claude Code best practices
 
 3. **Address recommendations** - Implement suggested changes (supporting infrastructure, task clarity, test coverage)
 
@@ -140,7 +140,7 @@ Is my plan implementable?
 Check if this plan will work with Claude Code
 
 # Or use the skill directly
-/implementable
+/checking-implementability
 ```
 
 **Example output:**
@@ -157,7 +157,7 @@ See [cookie](https://github.com/matthewdeaves/cookie) for an example — the [WO
 
 ---
 
-#### qa-round
+#### creating-qa-rounds
 
 Create structured QA round documents for manual testing phases. Generates tracking docs with issue logging, session planning, and verification workflows.
 
@@ -184,7 +184,7 @@ start QA round for Recipe Remix
 set up QA testing for the dashboard feature
 
 # Or use the skill directly
-/qa-round
+/creating-qa-rounds
 ```
 
 **QA Workflow:**
@@ -202,7 +202,7 @@ The generated document supports this 4-phase workflow:
 
 **Templates:**
 
-Uses templates from `skills/implementable/templates/`:
+Uses templates from `skills/checking-implementability/templates/`:
 - `QA-ROUND-TEMPLATE.md` - Full round structure
 - `QA-ISSUE-TEMPLATE.md` - Individual issue tracking
 
@@ -210,7 +210,7 @@ Note: The cookie project's [QA-TESTING.md](https://github.com/matthewdeaves/cook
 
 ---
 
-#### commit
+#### committing
 
 Analyzes your working tree, checks for missing .gitignore entries, scans for secrets/API keys, suggests staging changes, and generates a conventional commit message based on the actual changes. When QA tracking documents are present, automatically formats messages to link code changes to specific issues (e.g., QA-013, #42) with clear explanations of what each file change accomplishes.
 
@@ -221,5 +221,5 @@ Commit my changes
 Create a commit
 
 # Or use the skill directly
-/commit
+/committing
 ```

@@ -1,0 +1,16 @@
+{
+  "skills": ["committing"],
+  "query": "Create a commit for my staged changes",
+  "files": [".gitignore", "src/", "tests/"],
+  "expected_behavior": [
+    "Analyzes working tree with git status and git diff",
+    "Checks .gitignore for missing patterns based on project type",
+    "Scans staged files for potential secrets (API keys, passwords, private keys)",
+    "Reviews staging state and suggests related files to stage",
+    "Generates conventional commit message with type prefix",
+    "Uses imperative mood in subject line",
+    "Includes detailed body explaining what and why",
+    "Links file changes to what they accomplish",
+    "Asks for user confirmation before executing commit"
+  ]
+}

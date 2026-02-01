@@ -7,8 +7,8 @@ Improvement suggestions identified during review on 2026-01-15.
 ## Completed Improvements (2026-01-25)
 
 ### Implemented
-- ✅ **Split the skill** - QA round creation extracted to `skills/qa-round/SKILL.md`
-- ✅ **Extract templates** - Templates moved to `skills/implementable/templates/`
+- ✅ **Split the skill** - QA round creation extracted to `skills/creating-qa-rounds/SKILL.md`
+- ✅ **Extract templates** - Templates moved to `skills/checking-implementability/templates/`
 - ✅ **Consolidate state management** - Deduplicated state transition diagrams
 - ✅ **Add section navigation** - Table of contents added to main skill
 - ✅ **Deduplicate splitting guidance** - Unified into "Document Splitting Principles" section

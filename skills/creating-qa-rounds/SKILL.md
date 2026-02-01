@@ -1,12 +1,25 @@
 ---
-name: qa-round
+name: creating-qa-rounds
 description: Create structured QA round documents for manual testing phases. Generates tracking docs with issue logging, session planning, and verification workflows.
 allowed-tools: Read Glob Grep Write
 ---
 
-# QA Round Creation
+# Creating QA Rounds
 
 Create feature-scoped QA tracking documents for manual testing phases.
+
+## Contents
+- When to Use This Skill
+- What This Skill Does
+- Workflow (Determine Round, Extract Context, Generate Document, Populate Content)
+- State Model (States and Transitions)
+- QA Workflow Phases (Test & Log, Research, Plan & Fix, Verify)
+- Document Structure
+- When to Split QA Documents
+- Individual Issue Files (Alternative Pattern)
+- Output
+- Example Generation
+- Important Notes
 
 ## When to Use This Skill
 
@@ -43,7 +56,7 @@ Read the implementation plan to gather:
 - Phase or session IDs that completed the work
 
 ### 3. Generate Round Document
-Create `QA-ROUND-{N}-{FEATURE-SLUG}.md` using the template from `skills/implementable/templates/QA-ROUND-TEMPLATE.md`.
+Create `QA-ROUND-{N}-{FEATURE-SLUG}.md` using the template from `skills/checking-implementability/templates/QA-ROUND-TEMPLATE.md`.
 
 **Document naming:**
 - Format: `QA-ROUND-{N}-{FEATURE-SLUG}.md`
@@ -108,7 +121,7 @@ The generated document should support this 4-phase workflow:
 
 ## Document Structure
 
-Use the template at `skills/implementable/templates/QA-ROUND-TEMPLATE.md` with these sections:
+Use the template at `skills/checking-implementability/templates/QA-ROUND-TEMPLATE.md` with these sections:
 
 1. **Header** - Round number, feature name, scope, platforms, dates
 2. **Overview** - What was implemented, features to test, testing focus
@@ -148,7 +161,7 @@ For medium projects, consider individual issue files instead of batch files:
 - `QA-TESTING.md` - Master index with issue log table
 - `QA-001.md`, `QA-002.md`, `QA-003.md` - One file per issue
 
-Use the template at `skills/implementable/templates/QA-ISSUE-TEMPLATE.md` for individual issues.
+Use the template at `skills/checking-implementability/templates/QA-ISSUE-TEMPLATE.md` for individual issues.
 
 ## Output
 

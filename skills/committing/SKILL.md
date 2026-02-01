@@ -1,12 +1,17 @@
 ---
-name: commit
+name: committing
 description: Smart git commits with security checks, .gitignore validation, and intelligent commit messages. Analyzes your changes, catches potential secrets, generates conventional commit messages, and provides QA-aware formatting when issue tracking documents are present.
 allowed-tools: Bash Read Grep Glob AskUserQuestion
 ---
 
-# Smart Commit
+# Committing Changes
 
 Perform intelligent pre-commit analysis, security scanning, and generate high-quality conventional commit messages. Automatically detects QA/issue tracking work and generates contextual messages linking code changes to specific issues.
+
+## Contents
+- Workflow (6 steps: Analyze, Check .gitignore, Security Scan, Staging Review, Detect QA Context, Generate Message, Execute)
+- Important Notes
+- Example Session Flows (Standard, QA Single Issue, QA Multiple Issues)
 
 ## Workflow
 

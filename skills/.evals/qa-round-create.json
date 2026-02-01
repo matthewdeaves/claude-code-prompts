@@ -1,0 +1,17 @@
+{
+  "skills": ["creating-qa-rounds"],
+  "query": "Create QA Round 1 for user authentication feature",
+  "files": ["PHASE-2-AUTH.md", "BUILD-PHASES.md"],
+  "expected_behavior": [
+    "Searches for existing QA-ROUND-*.md files to determine round number",
+    "Reads implementation plan to extract features, acceptance criteria, platforms",
+    "Creates QA-ROUND-{N}-{FEATURE-SLUG}.md document",
+    "Generates test scenarios from acceptance criteria in plan",
+    "Includes Issue Log table with ID, Summary, Affects, Status, Session columns",
+    "Uses unified state model ([OPEN], [IN PROGRESS], [READY TO TEST], [DONE])",
+    "Provides 4-phase workflow: Test & Log, Research, Plan & Fix, Verify",
+    "Includes Session Scope table and ready-to-use session prompts",
+    "Tailors to project's terminology, platforms, and patterns",
+    "Keeps round focused on single feature or tightly-related group"
+  ]
+}

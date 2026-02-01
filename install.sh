@@ -50,6 +50,16 @@ list_statuslines() {
     echo
 }
 
+uninstall_old_skills() {
+    local old_skills=("commit" "implementable" "qa-round")
+    for old_skill in "${old_skills[@]}"; do
+        if [ -d "$SKILLS_DEST/$old_skill" ]; then
+            rm -rf "$SKILLS_DEST/$old_skill"
+            echo "Removed old skill '$old_skill'"
+        fi
+    done
+}
+
 install_skill() {
     local skill_name="$1"
     local src="$SKILLS_SRC/$skill_name"
@@ -67,10 +77,15 @@ install_skill() {
 }
 
 install_all_skills() {
+    uninstall_old_skills
     mkdir -p "$SKILLS_DEST"
     for dir in "$SKILLS_SRC"/*/; do
         if [ -d "$dir" ]; then
             skill_name=$(basename "$dir")
+            # Skip .evals directory
+            if [ "$skill_name" = ".evals" ]; then
+                continue
+            fi
             cp -r "$dir" "$SKILLS_DEST/"
             echo "Installed skill '$skill_name'"
         fi
