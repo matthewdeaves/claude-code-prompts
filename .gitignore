@@ -1,0 +1,53 @@
+# ===========================
+# Environment and secrets
+# ===========================
+.env
+.env.*
+*.pem
+*.key
+*.crt
+credentials*
+secrets*
+*_token*
+*_secret*
+
+# ===========================
+# Claude Code local state
+# ===========================
+# The .claude/ directory may contain session data, cached API keys,
+# or local configuration with sensitive values
+.claude/
+.claude_output/
+
+# ===========================
+# API keys and tokens
+# ===========================
+# Anthropic API keys, OpenRouter keys, etc.
+api_key*
+anthropic_key*
+*.api_key
+
+# ===========================
+# OS files
+# ===========================
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
+
+# ===========================
+# Editor files
+# ===========================
+.vscode/
+.idea/
+*.sublime-*
+
+# ===========================
+# Temporary and log files
+# ===========================
+*.log
+*.tmp
+*.bak
+tmp/
+temp/
